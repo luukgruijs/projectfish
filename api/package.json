@@ -1,0 +1,19 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "testdata": "node -e require('./fixtures').generate()"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.17.1",
+    "express": "4.15.2",
+    "mongodb": "2.2.26",
+    "mongoose": "4.9.7",
+    "morgan": "1.8.1",
+    "nodemon": "1.11.0"
+  }
+}
