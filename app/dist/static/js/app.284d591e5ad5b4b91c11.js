@@ -1,0 +1,2 @@
+webpackJsonp([1],{2:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),new(t(0).a)({el:"#app",created:function(){window.Vue=this}})}},[2]);
+//# sourceMappingURL=app.284d591e5ad5b4b91c11.js.map
