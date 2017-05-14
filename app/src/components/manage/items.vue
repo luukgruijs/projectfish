@@ -3,9 +3,7 @@
         <sidenav></sidenav>
         <div class="col manage">
             <h1>Items</h1>
-            <div class="items">
-                <datatable :data="items"></datatable>
-            </div>
+            <datatable :data="items"></datatable>
         </div>
     </div>
 </template>

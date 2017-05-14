@@ -36,6 +36,17 @@
                     line-height: 40px;
                     text-decoration: none;
                     color: $black;
+                    &.router-link-active {
+                        position: relative;
+                        &:after {
+                            content: "";
+                            border-bottom: 3px solid $green;
+                            position: absolute;
+                            left: 0;
+                            width: 100%;
+                            bottom: -7.5px;
+                        }
+                    }
                 }
             }
         }
