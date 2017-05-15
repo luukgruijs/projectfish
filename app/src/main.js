@@ -6,6 +6,8 @@ import router from './router'
 // main component
 import app from "./components/app"
 
+window.bus = new Vue();
+
 new Vue({
     el: "#app",
     created: function() {

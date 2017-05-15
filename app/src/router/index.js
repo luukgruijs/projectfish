@@ -18,6 +18,13 @@ const routes = [
             require(['@/components/manage/items.vue'], resolve)
         },
     },
+    {
+        path: "/manage/orders",
+        name: "orders",
+        component: function (resolve) {
+            require(['@/components/manage/orders.vue'], resolve)
+        },
+    },
 ]
 
 const router = new Router({routes})

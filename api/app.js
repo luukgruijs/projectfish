@@ -1,6 +1,7 @@
 const express       = require("express")
 const morgan        = require("morgan")
 const mongoose      = require("mongoose")
+mongoose.Promise    = require("bluebird")
 const bodyParser    = require("body-parser")
 const config        = require("./config")
 const fixtures      = require("./fixtures")
@@ -23,6 +24,25 @@ mongoose.connect(config.database, function() {
 
 // mount routes
 const routes = require("./routes")(app, express)
+
+// allow origin
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+    next();
+});
+
+// Set custom 404 page.
+app.use((req, res, next) => {
+    if (req.method === "OPTIONS") { // Handle pre-flight CORS requests
+        res.sendStatus(200)
+        return
+    }
+
+    next()
+    return
+})
 
 // mount api under /api
 app.use("/v1", routes)

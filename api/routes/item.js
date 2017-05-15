@@ -13,4 +13,13 @@ module.exports = (app) => {
             model.item
         )
     })
+
+    app.post("/items", (request, response, next) => {
+        rest.create(
+            request,
+            response,
+            next,
+            model.item
+        )
+    })
 }

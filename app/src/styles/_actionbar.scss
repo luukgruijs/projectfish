@@ -1,0 +1,56 @@
+.action__bar {
+    position: fixed;
+    right: -460px;
+    top: 0;
+    height: 100%;
+    background-color: white;
+    width: 450px;
+    -webkit-box-shadow: -10px 0px 10px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: -10px 0px 10px 0px rgba(0,0,0,0.25);
+    box-shadow: -10px 0px 10px 0px rgba(0,0,0,0.25);
+    -webkit-transition: right 200ms;
+       -moz-transition: right 200ms;
+        -ms-transition: right 200ms;
+         -o-transition: right 200ms;
+            transition: right 200ms;
+    &.open {
+        right: 0;
+    }
+    &--inner {
+        padding: 30px 50px;
+
+        .header {
+            display: flex;
+            width: 100%;
+            h2 {
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: uppercase;
+                margin-right: auto;
+            }
+
+            i {
+                cursor: pointer;
+            }
+        }
+
+        form {
+            width: 100%;
+            margin: 20px 0;
+            fieldset {
+                input {
+                    width: 100%;
+                    display: block;
+                    line-height: 40px;
+                    margin-bottom: 10px;
+                    border: 2px solid $gray;
+                    padding-left: 10px;
+                    &[type='submit'] {
+                        max-width: 100px;
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+}

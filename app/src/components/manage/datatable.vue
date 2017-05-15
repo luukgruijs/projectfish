@@ -20,7 +20,7 @@
 <script>
     export default {
         name: "datatable",
-        props: ["data"],
+        props: ["data", "fields"],
         data() {
             return {}
         },

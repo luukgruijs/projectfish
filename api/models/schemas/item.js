@@ -9,9 +9,8 @@ module.exports = function Item(mongoose) {
             "type": String
         },
         "category": {
-            "default": [],
             "desc": "The category of the item",
-            "type": [String]
+            "type": String
         },
         "price": {
             "desc": "The price of the item",

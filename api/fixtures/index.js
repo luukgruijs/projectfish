@@ -25,6 +25,7 @@ exports.generate = function() {
     user.password = "fishisnice"
     user.orders = [order._id]
 
+    console.log("save")
     item.save()
     order.save()
     user.save()

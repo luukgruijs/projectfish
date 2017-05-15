@@ -12,31 +12,12 @@ module.exports = function Order(mongoose) {
             "desc": "The date at which the order is placed",
             "type": Date
         },
-        "items": {
-            "required": true,
-            "desc": "The items in an order",
-            "type": [{
-                "item_id": {
-                    "type": mongoose.Schema.Types.ObjectId,
-                    "ref": "Item",
-                    "desc": "ID of item",
-                    "required": true,
-                },
-                "quantity":{
-                    "type": Number,
-                    "default": 1,
-                    "required": true
-                }
-            }]
+        "orders": {
+            "default": [],
+            "desc": "A list of of all the orders",
+            "type": [mongoose.Schema.Types.ObjectId]
         },
-        "user_id": {
-            "desc": "The ID of the user that orders the items",
-            "type": mongoose.Schema.Types.ObjectId
-        }
     })
-
-    // TODO
-    // add validation so that items can only contain unique items
 
     return mongoose.model("Order", schema)
 }
