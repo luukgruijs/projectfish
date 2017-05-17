@@ -3,41 +3,41 @@
         <sidenav></sidenav>
         <div class="col manage">
             <div class="header">
-                <h1>Lunch items</h1>
-                <a href="#" @click.prevent="openActionBar()">Add more items</a>
+                <h1>Users</h1>
+                <a href="#" @click.prevent="openActionBar()">Add new user</a>
             </div>
 
-            <datatable :data="items" :fields="['name', 'category', 'price']"></datatable>
+            <datatable :data="users" :fields="['name', 'email', 'role']"></datatable>
         </div>
-        <itembar id="itembar"></itembar>
+        <userbar id="userbar"></userbar>
     </div>
 </template>
 
 <script>
     import sidenav from "./sidenav.vue"
     import datatable from "./datatable.vue"
-    import itembar from "./itembar.vue"
+    import userbar from "./userbar.vue"
     import { http } from "../../client"
 
     export default {
-        name: "items",
-        components: { sidenav, datatable, itembar },
+        name: "users",
+        components: { sidenav, datatable, userbar },
 
         data() {
             return {
-                items: [],
+                users: [],
             }
         },
 
         created() {
-            http.get("items").then((items) => {
-                this.items = items.data
+            http.get("users").then((users) => {
+                this.users = users.data
             })
         },
 
         methods: {
             openActionBar: () => {
-                document.getElementById("itembar").classList.add("open")
+                document.getElementById("userbar").classList.add("open")
             },
         }
     }

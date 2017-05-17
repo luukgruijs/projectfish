@@ -2,14 +2,15 @@
     <div class="action__bar">
         <div class="action__bar--inner">
             <div class="header">
-                <h2>add item</h2>
+                <h2>add user</h2>
                 <i class="icon close" @click.prevent="closeActionBar()">x</i>
             </div>
             <form>
                 <fieldset>
-                    <input type="text" placeholder="Item name " v-model="name" required/>
-                    <input type="text" placeholder="Price name " v-model="price" required/>
-                    <input type="submit" value="add item" class="button action" @click.prevent="createItem()">
+                    <input type="text" placeholder="name" v-model="name" required/>
+                    <input type="text" placeholder="email" v-model="email" required/>
+                    <input type="password" placeholder="password" v-model="password" required/>
+                    <input type="submit" value="add user" class="button action" @click.prevent="createUser()">
                 </fieldset>
             </form>
         </div>
@@ -21,27 +22,28 @@
     import { http } from "../../client"
 
     export default {
-        name: "itembar",
+        name: "userbar",
         data() {
             return {
                 name: "",
-                price: ""
+                email: "",
+                password: "",
             }
         },
         methods: {
             closeActionBar() {
                 document.querySelector(".action__bar").classList.remove("open")
             },
-            createItem() {
-                if (this.name && this.price) {
+            createUser() {
+                if (this.name && this.email && this.password) {
 
-                    let item = {
+                    let user = {
                         "name": this.name,
-                        "price": this.price,
-                        "category": "fish"
+                        "email": this.email,
+                        "password": this.password
                     }
 
-                    http.post("items", item).then((item) => {
+                    http.post("users", user).then((item) => {
                         bus.$emit("open", "test", 5000)
                         document.querySelector(".action__bar").classList.remove("open")
                     })

@@ -6,7 +6,7 @@
                     <router-link to="dashboard">Dashboard</router-link>
                 </li>
                 <li>
-                    <router-link to="items">manage</router-link>
+                    <router-link to="manage/orders">manage</router-link>
                 </li>
             </ul>
             <div class="logo">
@@ -14,7 +14,7 @@
             </div>
             <ul>
                 <li>
-                    <router-link to="order" class="button action">order now</router-link>
+                    <router-link to="/ordernow" class="button action">order now</router-link>
                 </li>
                 <li>
                     Luuk Gruijs

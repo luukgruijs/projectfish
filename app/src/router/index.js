@@ -12,6 +12,13 @@ const routes = [
         },
     },
     {
+        path: "/ordernow",
+        name: "ordernow",
+        component: function (resolve) {
+            require(['@/components/order_now.vue'], resolve)
+        },
+    },
+    {
         path: "/manage/items",
         name: "items",
         component: function (resolve) {
@@ -23,6 +30,13 @@ const routes = [
         name: "orders",
         component: function (resolve) {
             require(['@/components/manage/orders.vue'], resolve)
+        },
+    },
+    {
+        path: "/manage/users",
+        name: "users",
+        component: function (resolve) {
+            require(['@/components/manage/users.vue'], resolve)
         },
     },
 ]

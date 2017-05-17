@@ -2,16 +2,12 @@
     <table class="datatable">
         <thead>
             <tr>
-                <th>Item</th>
-                <th>Category</th>
-                <th>Price</th>
+                <th v-for="field in fields">{{field}}</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="item in data">
-                <td>{{item.name}}</td>
-                <td>{{item.category}}</td>
-                <td>{{item.price}}</td>
+                <td v-for="(field, index) in fields">{{item[field]}}</td>
             </tr>
         </tbody>
     </table>
@@ -24,6 +20,9 @@
         data() {
             return {}
         },
+        mounted() {
+            console.log(this.data, this.fields)
+        }
     }
 </script>
 
