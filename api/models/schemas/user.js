@@ -20,10 +20,11 @@ module.exports = function User(mongoose) {
             "select": false,
             "type": String
         },
-        "roles": {
-            "default": [],
+        "role": {
+            "default": "user",
             "desc": "A list of roles attached to the user",
-            "type": [String]
+            "enum": ['admin', 'user'],
+            "type": String
         },
         "orders": {
             "default": [],

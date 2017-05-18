@@ -7,9 +7,9 @@
                 <a href="#" @click.prevent="openActionBar()">Add more items</a>
             </div>
 
-            <datatable :data="items" :fields="['name', 'category', 'price']"></datatable>
+            <datatable :data="items" :fields="['name', 'category', 'price']" @edit="onEdit($event)"></datatable>
         </div>
-        <itembar id="itembar"></itembar>
+        <itembar id="itembar" :item="active_item" @reload="fetch()"></itembar>
     </div>
 </template>
 
@@ -26,19 +26,28 @@
         data() {
             return {
                 items: [],
+                active_item: {}
             }
         },
 
         created() {
-            http.get("items").then((items) => {
-                this.items = items.data
-            })
+            this.fetch()
         },
 
         methods: {
-            openActionBar: () => {
+            fetch() {
+                http.get("items").then((items) => {
+                    this.items = items.data
+                })
+            },
+            openActionBar() {
                 document.getElementById("itembar").classList.add("open")
             },
+
+            onEdit(event) {
+                this.active_item = event
+                document.getElementById("itembar").classList.add("open")
+            }
         }
     }
 </script>

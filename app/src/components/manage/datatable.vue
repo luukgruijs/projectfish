@@ -7,7 +7,7 @@
         </thead>
         <tbody>
             <tr v-for="item in data">
-                <td v-for="(field, index) in fields">{{item[field]}}</td>
+                <td v-for="(field, index) in fields" @click.prent="edit(item)">{{item[field]}}</td>
             </tr>
         </tbody>
     </table>
@@ -20,8 +20,10 @@
         data() {
             return {}
         },
-        mounted() {
-            console.log(this.data, this.fields)
+        methods: {
+            edit(item) {
+                this.$emit("edit", item)
+            }
         }
     }
 </script>

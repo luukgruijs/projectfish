@@ -2,6 +2,38 @@
 
 const model = require("./models")
 
+exports.update = function updateREST(request, response, next, obj, filters) {
+
+    // Get the ID from the request parameters
+    var id = request.params.id
+
+    if (!id) {
+        // next(errors.MISSING_PARAMETERS(["params.id"]))
+        return
+    }
+
+    filters = filters || {}
+    filters._id = id
+
+    // NOTE: Will not call any hooks, because Mongo's findAndModify is called directly
+
+    obj
+        .findOne(filters).exec()
+        .then((model) => {
+            if (model == null) {
+                // throw errors.RESOURCE_NOT_FOUND({ "id": id, "name": obj.modelName.toLowerCase() })
+            }
+
+            Object.keys(request.body).forEach((prop) => {
+                model[prop] = request.body[prop]
+            })
+
+            return model.save()
+        })
+        .then((res) => response.json(res))
+        .catch(next)
+}
+
 exports.search = function search(request, response, next, obj) {
     response.set("Content-Type", "application/json")
 

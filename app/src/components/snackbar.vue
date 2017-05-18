@@ -16,7 +16,7 @@
         mounted() {
             var self = this
 
-            bus.$on("open", function(message, duration){
+            bus.$on("open__snackbar", function(message, duration){
                 document.getElementById("snackbar").classList.add("open")
                 self.message = message
 
@@ -44,6 +44,11 @@
         left: 50%;
         margin-left: -250px;
         padding: 5px;
+        -webkit-transition: bottom 200ms;
+           -moz-transition: bottom 200ms;
+            -ms-transition: bottom 200ms;
+             -o-transition: bottom 200ms;
+                transition: bottom 200ms;
         &.open {
             bottom: 0;
         }
