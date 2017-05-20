@@ -2,10 +2,11 @@
 
 const model = require("../models")
 const rest = require("../rest")
+const middleware = require("../middleware")
 
 module.exports = (app) => {
 
-    app.get("/items", (request, response, next) => {
+    app.get("/items", middleware.verify, (request, response, next) => {
         rest.search(
             request,
             response,
@@ -14,7 +15,7 @@ module.exports = (app) => {
         )
     })
 
-    app.post("/items", (request, response, next) => {
+    app.post("/items", middleware.verify, (request, response, next) => {
         rest.create(
             request,
             response,
@@ -23,7 +24,7 @@ module.exports = (app) => {
         )
     })
 
-    app.post("/items/:id", (request, response, next) => {
+    app.post("/items/:id", middleware.verify, (request, response, next) => {
         rest.update(
             request,
             response,

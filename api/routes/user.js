@@ -2,10 +2,11 @@
 
 const model = require("../models")
 const rest = require("../rest")
+const middleware = require("../middleware")
 
 module.exports = (app) => {
 
-    app.get("/users", (request, response, next) => {
+    app.get("/users", middleware.verify, (request, response, next) => {
         rest.search(
             request,
             response,
@@ -14,7 +15,7 @@ module.exports = (app) => {
         )
     })
 
-    app.post("/users", (request, response, next) => {
+    app.post("/users", middleware.verify, (request, response, next) => {
         rest.create(
             request,
             response,

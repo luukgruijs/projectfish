@@ -1,5 +1,7 @@
 "use strict"
 
+const bcrypt = require('bcrypt-nodejs');
+
 module.exports = function User(mongoose) {
     var schema = new mongoose.Schema({
         "email": {
@@ -33,7 +35,32 @@ module.exports = function User(mongoose) {
         }
     })
 
-    // TODO validate available roles
+    // schema the password before saving
+    schema.pre('save', function(next){
+        var user = this;
+
+        // hash password only if candidate is new or password is changed
+        if(!user.isModified('password')) {
+            return next();
+        };
+
+        // generate hash
+        bcrypt.hash(user.password, null, null, function(err, hash) {
+            if (err) {
+                return next(err);
+            }
+
+            // changed password to hash version
+            user.password = hash;
+            next();
+        });
+    });
+
+    // method to compare a given password with the database hash
+    schema.methods.comparePassword = function(password) {
+        var user = this;
+        return bcrypt.compareSync(password, user.password);
+    }
 
     return mongoose.model("User", schema)
 }
