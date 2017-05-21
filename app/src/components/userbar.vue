@@ -19,7 +19,7 @@
 
 <script>
 
-    import { http } from "../../client"
+    import { http } from "../client"
 
     export default {
         name: "userbar",

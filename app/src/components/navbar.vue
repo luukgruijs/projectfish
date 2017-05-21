@@ -1,5 +1,5 @@
 <template>
-    <header class="navbar">
+    <header class="navbar" v-if="$route.path !== '/'">
         <div class="container">
             <ul>
                 <li>
@@ -28,7 +28,7 @@
     export default {
         data() {
             return {}
-        }
+        },
     }
 </script>
 

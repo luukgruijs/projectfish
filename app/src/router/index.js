@@ -5,10 +5,17 @@ Vue.use(Router)
 
 const routes = [
     {
-        path: "/",
+        path: "/home",
         name: "dashboard",
         component: function (resolve) {
-            require(['@/components/dashboard/dashboard.vue'], resolve)
+            require(['@/components/dashboard.vue'], resolve)
+        },
+    },
+    {
+        path: "/",
+        name: "login",
+        component: function (resolve) {
+            require(['@/components/login.vue'], resolve)
         },
     },
     {
@@ -22,21 +29,21 @@ const routes = [
         path: "/manage/items",
         name: "items",
         component: function (resolve) {
-            require(['@/components/manage/items.vue'], resolve)
+            require(['@/components/items.vue'], resolve)
         },
     },
     {
         path: "/manage/orders",
         name: "orders",
         component: function (resolve) {
-            require(['@/components/manage/orders.vue'], resolve)
+            require(['@/components/orders.vue'], resolve)
         },
     },
     {
         path: "/manage/users",
         name: "users",
         component: function (resolve) {
-            require(['@/components/manage/users.vue'], resolve)
+            require(['@/components/users.vue'], resolve)
         },
     },
 ]

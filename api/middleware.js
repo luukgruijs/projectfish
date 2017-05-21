@@ -9,7 +9,7 @@ exports.verify = function(req, res, next) {
     if (token) {
         jwt.verify(token, config.secret, function(err, decoded) {
             if (err) {
-                return res.status(403).send({
+                return res.status(401).send({
                     message: "failed to authenticate token"
                 });
             } else {
@@ -18,7 +18,7 @@ exports.verify = function(req, res, next) {
             }
         });
     } else {
-        return res.status(403).send({
+        return res.status(401).send({
             message: "no token provided"
         });
     }

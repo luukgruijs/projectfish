@@ -7,8 +7,8 @@ const rest = require("../rest")
 
 module.exports = (app) => {
 
-    app.post("/authenticate", (request, response, next) => {
-        const user = model.user.findOne({Email: req.body.email}).exec();
+    app.post("/authenticate", (req, res, next) => {
+        const user = model.user.findOne({email: req.body.email}).select("name email password role").exec();
 
         user.then((user) => {
             const valid_password = user.comparePassword(req.body.password)
@@ -25,11 +25,12 @@ module.exports = (app) => {
                     token,
                     "name": user.name,
                     "email": user.email,
-                    "role": user.role
+                    "role": user.role,
+                    "_id": user._id
                 })
 
             } else {
-                response.json({"message": "Your email or password is incorrect"})
+                res.status(400).send({"message": "Your email or password is incorrect"})
             }
         })
 

@@ -11,7 +11,7 @@
 <script>
     import datatable from "./datatable.vue"
     import sidenav from "./sidenav.vue"
-    import { http } from "../../client"
+    import { http } from "../client"
 
     export default {
         name: "orders",

@@ -19,8 +19,8 @@ module.exports = function User(mongoose) {
         },
         "password": {
             "default": "",
-            "select": false,
-            "type": String
+            "type": String,
+            "select": false
         },
         "role": {
             "default": "user",
@@ -59,7 +59,13 @@ module.exports = function User(mongoose) {
     // method to compare a given password with the database hash
     schema.methods.comparePassword = function(password) {
         var user = this;
-        return bcrypt.compareSync(password, user.password);
+        return bcrypt.compareSync(password, this.password, (err, same) => {
+            if (same) {
+                return true
+            } else {
+                return false
+            }
+        })
     }
 
     return mongoose.model("User", schema)

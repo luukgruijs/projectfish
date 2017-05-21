@@ -17,7 +17,7 @@
     import sidenav from "./sidenav.vue"
     import datatable from "./datatable.vue"
     import userbar from "./userbar.vue"
-    import { http } from "../../client"
+    import { http } from "../client"
 
     export default {
         name: "users",

@@ -17,7 +17,7 @@
     import sidenav from "./sidenav.vue"
     import datatable from "./datatable.vue"
     import itembar from "./itembar.vue"
-    import { http } from "../../client"
+    import { http } from "../client"
 
     export default {
         name: "items",

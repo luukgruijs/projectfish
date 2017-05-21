@@ -2,31 +2,19 @@
 
 const mongoose = require("mongoose")
 const models = require("../models")
+const config = require("../config")
 
-exports.generate = function() {
+exports.startup = function() {
 
-    const item = new models.item()
-    item.name = "Kibbeling"
-    item.category = "fish"
-    item.price = "7.50"
-
-    const order = new models.order()
-    order.amount = "7.50"
-    order.created_at = new Date()
-    order.items = [{
-        "item_id": item._id,
-        "quantity": 1
-    }]
-
-    const user = new models.user()
-    user.name = "John doe"
-    user.email = "john@projectfish.com"
-    user.roles = ["admin"]
-    user.password = "fishisnice"
-    user.orders = [order._id]
-
-    console.log("save")
-    item.save()
-    order.save()
-    user.save()
+    const user = models.user.findOne().exec()
+    user.then((user) => {
+        if (!user) {
+            let user = new models.user
+            user.name = config.name
+            user.email = config.email
+            user.password = config.password
+            user.role = "admin"
+            user.save()
+        }
+    })
 }
