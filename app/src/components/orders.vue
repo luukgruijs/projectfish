@@ -2,8 +2,10 @@
     <div class="container">
         <sidenav></sidenav>
         <div class="col manage">
-            <h1>Lunch items</h1>
-            <datatable :data="orders" :fields="['amount, created_at, items']"></datatable>
+            <div class="header">
+                <h1>Orders</h1>
+            </div>
+            <datatable :data="orders" :fields="['amount', 'created_at', 'user']"></datatable>
         </div>
     </div>
 </template>

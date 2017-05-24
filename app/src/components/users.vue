@@ -4,7 +4,7 @@
         <div class="col manage">
             <div class="header">
                 <h1>Users</h1>
-                <a href="#" @click.prevent="openActionBar()">Add new user</a>
+                <a href="#" @click.prevent="openActionBar()">Add more users</a>
             </div>
 
             <datatable :data="users" :fields="['name', 'email', 'role']"></datatable>

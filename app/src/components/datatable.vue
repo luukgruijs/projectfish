@@ -9,6 +9,9 @@
             <tr v-for="item in data">
                 <td v-for="(field, index) in fields" @click.prent="edit(item)">{{item[field]}}</td>
             </tr>
+            <tr v-if="data.length === 0">
+                <td colspan="data.length">Nothing to show yet</td>
+            </tr>
         </tbody>
     </table>
 </template>

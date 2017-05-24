@@ -14,4 +14,13 @@ module.exports = (app) => {
             model.order
         )
     })
+
+    app.post("/order", middleware.verify, (request, response, next) => {
+        rest.create(
+            request,
+            response,
+            next,
+            model.order
+        )
+    })
 }

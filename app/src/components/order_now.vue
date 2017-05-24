@@ -10,6 +10,9 @@
                 <div class="item" v-for="item in items" @click="addToBasket(item, $event)">
                     <span><a href="#"></a></span><p>{{item.name}}</p><p>{{item.price}}</p>
                 </div>
+                <div class="no_items" v-if="items.length === 0">
+                    <p>No items yet</p>
+                </div>
             </div>
             <div class="basket">
                 <div class="basket__inner">
@@ -19,6 +22,9 @@
                     </div>
                     <div class="basket__total">
                         <b>Total: </b> <span>{{basket_total}}</span>
+                    </div>
+                    <div class="submit__order" v-if="basket.length > 0">
+                        <a href="#" @click.prevent="submitOrder()" class="button action">Send order</a>
                     </div>
                 </div>
             </div>
@@ -76,6 +82,35 @@
                 for (var i = 0; i < this.basket.length; i++) {
                     this.basket_total += this.basket[i].price;
                 }
+            },
+            submitOrder() {
+                var self = this
+
+                let order = {
+                    "amount": this.basket.reduce((amount, item) => {
+                        return amount + item.price
+                    }, 0),
+                    "items": this.basket.reduce((basket, item) => {
+                        let obj = {}
+
+                        obj.item = item._id
+                        obj.quantity = 1
+
+                        basket.push(obj)
+                        return basket
+
+                    }, []),
+                    "user": JSON.parse(window.sessionStorage.getItem("user"))._id
+                }
+
+                // send actual order
+                http.post("order", order).then((order) => {
+
+                    self.basket = []
+                    self.basket_total = 0
+
+                    bus.$emit("open", "test", 5000)
+                })
             }
         }
     }
@@ -144,6 +179,14 @@
                         width: 35%;
                     }
                 }
+                .no_items {
+                    text-align: center;
+                    p {
+                        line-height: 50px;
+                        background-color: white;
+                        border-bottom: 1px solid darken($gray, 5%);
+                    }
+                }
             }
             .basket {
                 width: 37.5%;
@@ -182,6 +225,15 @@
                         }
                         span {
                             margin-left: auto;
+                        }
+                    }
+
+                    .submit__order {
+                        margin-top: 40px;
+                        a {
+                            width: 200px;
+                            text-align: center;
+                            text-decoration: none;
                         }
                     }
                 }
