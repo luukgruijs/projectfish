@@ -15,8 +15,6 @@
 
 <script>
 
-    import { http } from "../client"
-
     export default {
         name: "login",
         data() {
@@ -33,7 +31,7 @@
                     "password": this.password
                 }
 
-                http.post("authenticate", user).then((response) => {
+                this.$http.post("authenticate", user).then((response) => {
                     if (response.status === 200) {
                         window.sessionStorage.setItem("user", JSON.stringify(response.data))
                         this.$router.push("/home")

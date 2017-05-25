@@ -18,8 +18,6 @@
 
 <script>
 
-    import { http } from "../client"
-
     export default {
         name: "itembar",
         props: ["item"],
@@ -55,7 +53,7 @@
 
                     // check type and do update/post
                     if (this.type === "create") {
-                        http.post("items", item).then((item) => {
+                        this.$http.post("items", item).then((item) => {
                             bus.$emit("open__snackbar", "test", 5000)
                             document.querySelector(".action__bar").classList.remove("open")
 
@@ -63,7 +61,7 @@
                             this.$emit("reload")
                         })
                     } else {
-                        http.post("items/"+this._id, item).then((item) => {
+                        this.$http.post("items/"+this._id, item).then((item) => {
                             bus.$emit("open__snackbar", "test", 5000)
                             document.querySelector(".action__bar").classList.remove("open")
 

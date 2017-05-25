@@ -17,7 +17,6 @@
     import sidenav from "./sidenav.vue"
     import datatable from "./datatable.vue"
     import userbar from "./userbar.vue"
-    import { http } from "../client"
 
     export default {
         name: "users",
@@ -30,8 +29,8 @@
         },
 
         created() {
-            http.get("users").then((users) => {
-                this.users = users.data
+            this.$http.get("users").then((users) => {
+                this.users = users.body
             })
         },
 

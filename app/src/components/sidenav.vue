@@ -2,7 +2,7 @@
     <aside class="sidenav">
         <ul>
             <li>
-                <router-link to="orders">Orders</router-link>
+                <router-link to="orders">Lunch orders</router-link>
             </li>
             <li>
                 <router-link to="items">Manage lunch items</router-link>

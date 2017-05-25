@@ -19,8 +19,6 @@
 
 <script>
 
-    import { http } from "../client"
-
     export default {
         name: "userbar",
         data() {
@@ -43,7 +41,7 @@
                         "password": this.password
                     }
 
-                    http.post("users", user).then((item) => {
+                    this.$http.post("users", user).then((item) => {
                         bus.$emit("open", "test", 5000)
                         document.querySelector(".action__bar").classList.remove("open")
                     })

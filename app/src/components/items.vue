@@ -17,7 +17,6 @@
     import sidenav from "./sidenav.vue"
     import datatable from "./datatable.vue"
     import itembar from "./itembar.vue"
-    import { http } from "../client"
 
     export default {
         name: "items",
@@ -36,8 +35,8 @@
 
         methods: {
             fetch() {
-                http.get("items").then((items) => {
-                    this.items = items.data
+                this.$http.get("items").then((items) => {
+                    this.items = items.body
                 })
             },
             openActionBar() {

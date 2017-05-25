@@ -33,7 +33,6 @@
 </template>
 
 <script>
-    import { http } from "../client"
 
     export default {
         name: "order_now",
@@ -46,7 +45,7 @@
         },
 
         created() {
-            http.get("items").then((items) => {
+            this.$http.get("items").then((items) => {
                 this.items = items.data
             })
         },
@@ -104,12 +103,10 @@
                 }
 
                 // send actual order
-                http.post("order", order).then((order) => {
+                this.$http.post("order", order).then((order) => {
 
                     self.basket = []
                     self.basket_total = 0
-
-                    bus.$emit("open", "test", 5000)
                 })
             }
         }
