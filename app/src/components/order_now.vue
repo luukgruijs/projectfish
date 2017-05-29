@@ -92,7 +92,7 @@
                     "items": this.basket.reduce((basket, item) => {
                         let obj = {}
 
-                        obj.item = item._id
+                        obj.item = item
                         obj.quantity = 1
 
                         basket.push(obj)

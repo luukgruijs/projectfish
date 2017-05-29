@@ -17,10 +17,23 @@ module.exports = function Order(mongoose) {
             "desc": "The items in an order",
             "type": [{
                 "item": {
-                    "type": mongoose.Schema.Types.ObjectId,
-                    "ref": "Item",
-                    "desc": "ID of item",
-                    "required": true,
+                    "type": {
+                        "name": {
+                            "desc": "The name of the item",
+                            "required": true,
+                            "trim": true,
+                            "type": String
+                        },
+                        "category": {
+                            "desc": "The category of the item",
+                            "type": String
+                        },
+                        "price": {
+                            "desc": "The price of the item",
+                            "required": true,
+                            "type": Number,
+                        }
+                    },
                 },
                 "quantity":{
                     "type": Number,

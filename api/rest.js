@@ -412,3 +412,40 @@ exports.create = function create(request, response, next, obj, defaults) {
             return
         })
 }
+
+exports.get = function getREST(request, response, next, obj, filters) {
+
+    // Get the ID from the request parameters
+    var id = request.params.id
+
+    if (!id) {
+        next("request.params.id empty")
+        return
+    }
+
+    var query = obj.findById(id)
+
+    if (filters) {
+        query.and(filters)
+    }
+
+    if ("_populate" in request.query) {
+        // Populate
+        query.populate(request.query._populate)
+    }
+
+    query.exec()
+        .then((res) => {
+            if (!res) {
+                // next(errors.RESOURCE_NOT_FOUND({ "id": id, "name": obj.modelName.toLowerCase() }))
+                return
+            }
+
+            response.json(res)
+            return
+        })
+        .catch((err) => {
+            next(err)
+            return
+        })
+}
