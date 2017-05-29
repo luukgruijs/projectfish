@@ -7,7 +7,7 @@
         </thead>
         <tbody>
             <tr v-for="item in data">
-                <td v-for="(field, index) in fields" @click.prent="edit(item)">{{item[field]}}</td>
+                <td v-for="(field, index) in fields" @click.prevent="rowClicked(item)">{{item[field]}}</td>
             </tr>
             <tr v-if="data.length === 0">
                 <td colspan="data.length">Nothing to show yet</td>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+    import { format } from "date-fns"
+
     export default {
         name: "datatable",
         props: ["data", "fields"],
@@ -24,8 +26,8 @@
             return {}
         },
         methods: {
-            edit(item) {
-                this.$emit("edit", item)
+            rowClicked(item) {
+                this.$emit("rowClicked", item)
             }
         }
     }

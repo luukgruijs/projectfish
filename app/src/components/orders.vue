@@ -5,7 +5,7 @@
             <div class="header">
                 <h1>Lunch orders</h1>
             </div>
-            <datatable :data="orders" :fields="['amount', 'created_at', 'user']"></datatable>
+            <datatable :data="orders" :fields="['amount', 'created_at', 'orders']" @rowClicked="forward($event)"></datatable>
         </div>
     </div>
 </template>
@@ -23,9 +23,25 @@
             }
         },
         created() {
-            this.$http.get("orders").then((orders) => {
-                this.orders = orders.body
+            this.$http.get("lunchorders?_populate=orders").then((orders) => {
+
+                this.orders = orders.body.map((order) => {
+                    return {
+                        "amount": order.orders.reduce((amount, order) => {
+                            return amount + order.amount
+                        }, 0),
+                        "created_at": order.created_at,
+                        "orders": order.orders.length,
+                        "_id": order._id
+                    }
+                })
             })
+        },
+        methods: {
+            forward(item) {
+                console.log(item)
+                this.$router.push({path: `orders/${item._id}`})
+            }
         }
     }
 </script>

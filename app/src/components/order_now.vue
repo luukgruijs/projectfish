@@ -104,7 +104,6 @@
 
                 // send actual order
                 this.$http.post("order", order).then((order) => {
-
                     self.basket = []
                     self.basket_total = 0
                 })

@@ -1,5 +1,5 @@
 import Vue from "vue"
-import VueResource from 'vue-resource'
+import VueResource from "vue-resource"
 
 Vue.use(VueResource)
 
@@ -17,6 +17,10 @@ Vue.http.interceptors.push(function(request, next) {
     next(function(response) {
         if (response.status !== 200) {
             bus.$emit("open__snackbar", response.body.message, 5000)
+        }
+
+        if (response.status === 401) {
+            window.location = "/"
         }
     });
 });

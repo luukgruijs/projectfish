@@ -7,7 +7,7 @@
                 <a href="#" @click.prevent="openActionBar()">Add more items</a>
             </div>
 
-            <datatable :data="items" :fields="['name', 'category', 'price']" @edit="onEdit($event)"></datatable>
+            <datatable :data="items" :fields="['name', 'category', 'price']" @rowClicked="onEdit($event)"></datatable>
         </div>
         <itembar id="itembar" :item="active_item" @reload="fetch()"></itembar>
     </div>

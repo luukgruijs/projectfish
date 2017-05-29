@@ -8,6 +8,7 @@ module.exports = (app, express) => {
     require("./item")(router)
     require("./order")(router)
     require("./user")(router)
+    require("./lunch_order")(router)
 
     return router
 }

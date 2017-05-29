@@ -40,6 +40,13 @@ const routes = [
         },
     },
     {
+        path: "/manage/orders/:id",
+        name: "order",
+        component: function (resolve) {
+            require(['@/components/order.vue'], resolve)
+        },
+    },
+    {
         path: "/manage/users",
         name: "users",
         component: function (resolve) {
