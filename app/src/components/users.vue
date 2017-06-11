@@ -9,7 +9,7 @@
 
             <datatable :data="users" :fields="['name', 'email', 'role']"></datatable>
         </div>
-        <userbar id="userbar"></userbar>
+        <userbar id="userbar" @reload="fetch()"></userbar>
     </div>
 </template>
 
@@ -29,12 +29,15 @@
         },
 
         created() {
-            this.$http.get("users").then((users) => {
-                this.users = users.body
-            })
+            this.fetch()
         },
 
         methods: {
+            fetch() {
+                this.$http.get("users").then((users) => {
+                    this.users = users.body
+                })
+            },
             openActionBar: () => {
                 document.getElementById("userbar").classList.add("open")
             },
