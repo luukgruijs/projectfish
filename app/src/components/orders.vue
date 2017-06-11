@@ -39,7 +39,6 @@
         },
         methods: {
             forward(item) {
-                console.log(item)
                 this.$router.push({path: `orders/${item._id}`})
             }
         }

@@ -3,10 +3,10 @@
         <div class="container">
             <ul>
                 <li>
-                    <router-link to="dashboard">Dashboard</router-link>
+                    <router-link :to="{name: 'dashboard'}">Dashboard</router-link>
                 </li>
                 <li>
-                    <router-link to="manage/orders">manage</router-link>
+                    <router-link :to="{name: 'orders'}">manage</router-link>
                 </li>
             </ul>
             <div class="logo">
@@ -14,7 +14,7 @@
             </div>
             <ul>
                 <li>
-                    <router-link to="/ordernow" class="button action">order now</router-link>
+                    <router-link :to="{name: 'ordernow'}" class="button action">order now</router-link>
                 </li>
                 <li>
                     Luuk Gruijs
@@ -43,6 +43,7 @@
         padding: 0 15px;
         background-color: white;
         box-shadow: 0 2px 2px -2px rgba(0,0,0,.15);
+        z-index: 1;
         img {
             height: 50px;
             padding: 5px 0;
