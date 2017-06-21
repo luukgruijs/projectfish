@@ -10,7 +10,6 @@ const upload = multer()
 module.exports = (app) => {
 
     app.post("/csv/items", middleware.verify, upload.single("file"), (request, response, next) => {
-
         // only parse files with correct mime type
         if (request.file.mimetype === "text/csv") {
             csv_parse(request.file.buffer, {"delimiter": ";"}, (err, output) => {
@@ -47,7 +46,6 @@ module.exports = (app) => {
     })
 
     app.post("/csv/users", middleware.verify, upload.single("file"), (request, response, next) => {
-
         // only parse files with correct mime type
         if (request.file.mimetype === "text/csv") {
             csv_parse(request.file.buffer, {"delimiter": ";"}, (err, output) => {

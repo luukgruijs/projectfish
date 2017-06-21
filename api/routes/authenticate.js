@@ -11,6 +11,7 @@ module.exports = (app) => {
         const user = model.user.findOne({email: req.body.email}).select("name email password role").exec();
 
         user.then((user) => {
+            // first check if password is already set
             const valid_password = user.comparePassword(req.body.password)
 
             if (valid_password) {
@@ -28,9 +29,8 @@ module.exports = (app) => {
                     "role": user.role,
                     "_id": user._id
                 })
-
             } else {
-                res.status(400).send({"message": "Your email or password is incorrect"})
+                res.status(400).send({"message": "Your email or password is incorrect", "error": "credentials_incorrect"})
             }
         })
 

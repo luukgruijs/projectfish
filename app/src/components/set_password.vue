@@ -4,10 +4,11 @@
             <div class="logo">
                 <img src="../assets/img/fish.svg">
             </div>
+            <h1>Set your password</h1>
             <form>
-                <input type="text" placeholder="email" v-model="email" required />
                 <input type="password" placeholder="password" v-model="password" required />
-                <input type="submit" value="login" class="button action" @click.prevent="login()"/>
+                <input type="password" placeholder="repeat password" v-model="password2" required />
+                <input type="submit" value="login" class="button action" @click.prevent="setPassword()"/>
             </form>
         </div>
     </div>
@@ -16,33 +17,24 @@
 <script>
 
     export default {
-        name: "login",
+        name: "setpassword",
         data() {
             return {
-                "email": "",
-                "password": ""
+                "password": "",
+                "password2": "",
             }
         },
         methods: {
-            login() {
+            setPassword() {
 
-                let user = {
-                    "email": this.email,
-                    "password": this.password
+                let password = {
+                    "password": this.password,
+                    "password2": this.password2
                 }
 
-                this.$http.post("authenticate", user).then((response) => {
+                this.$http.post("password", user).then((response) => {
                     if (response.status === 200) {
-                        window.sessionStorage.setItem("user", JSON.stringify(response.data))
-                        this.$router.push("/home")
-                    }
-
-                    if (response.status === 400) {
-                        bus.$emit("open__snackbar", response.data.message, 5000)
-
-                        if (response.data.err === "no_password") {
-                            this.$router.push("/set-password")
-                        }
+                        this.$router.push("/login")
                     }
                 })
             }
@@ -69,6 +61,9 @@
                     height: 50px;
                     margin-bottom: 50px;
                 }
+            }
+            h1 {
+                text-align: center;
             }
             form {
                 input {

@@ -22,10 +22,15 @@ module.exports = function User(mongoose) {
             "type": String,
             "select": false
         },
+        "has_password": {
+            "default": false,
+            "type": Boolean,
+            "desc": "Check if user has already set his password"
+        },
         "role": {
             "default": "user",
             "desc": "A list of roles attached to the user",
-            "enum": ['admin', 'user'],
+            "enum": ["admin", "user"],
             "type": String
         },
         "orders": {

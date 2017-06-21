@@ -2,12 +2,12 @@
     <div class="order_now">
         <h1>Order</h1>
         <form>
-            <input type="text" placeholder="search items" />
+            <input type="text" placeholder="search items" v-model="search"/>
             <input type="submit" value="search" class="button action" @search.prevent="search"/>
         </form>
         <div class="row">
             <div class="items">
-                <div class="item" v-for="item in items" @click="addToBasket(item, $event)">
+                <div class="item" v-for="item in filtered_items" @click="addToBasket(item, $event)">
                     <span><a href="#"></a></span><p>{{item.name}}</p><p>{{item.price}}</p>
                 </div>
                 <div class="no_items" v-if="items.length === 0">
@@ -40,7 +40,8 @@
             return {
                 "basket": [],
                 "basket_total": 0,
-                "items": []
+                "items": [],
+                "search": "",
             }
         },
 
@@ -48,6 +49,14 @@
             this.$http.get("items").then((items) => {
                 this.items = items.data
             })
+        },
+
+        computed: {
+            filtered_items() {
+                return this.items.filter((item) => {
+                    return item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+                })
+            }
         },
 
         methods: {
