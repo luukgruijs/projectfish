@@ -3,7 +3,7 @@
         <sidenav></sidenav>
         <div class="col manage" v-if="order">
             <div class="header">
-                <h1>Order from {{order.created_at}}</h1>
+                <h1>Order from {{order.created_at | date}}</h1>
             </div>
             <div class="row">
                 <canvas id="countchart"></canvas>

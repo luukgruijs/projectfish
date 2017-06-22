@@ -9,6 +9,9 @@ import Vue from './resources'
 // permissions
 import Vue from "./directives/permissions"
 
+// filters
+import Vue from "./filters"
+
 // main component
 import app from "./components/app"
 

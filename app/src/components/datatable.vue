@@ -7,7 +7,10 @@
         </thead>
         <tbody>
             <tr v-for="item in data">
-                <td v-for="(field, index) in fields" @click.prevent="rowClicked(item)">{{item[field]}}</td>
+                <td v-for="(field, index) in fields" @click.prevent="rowClicked(item)">
+                    <span v-if="field === 'created_at'">{{ item[field] | date }}</span>
+                    <span v-if="field !== 'created_at'">{{ item[field] }}</span>
+                </td>
             </tr>
             <tr v-if="data.length === 0">
                 <td colspan="data.length">Nothing to show yet</td>
