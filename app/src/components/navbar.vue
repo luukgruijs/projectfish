@@ -6,7 +6,7 @@
                     <router-link :to="{name: 'dashboard'}">Dashboard</router-link>
                 </li>
                 <li>
-                    <router-link :to="{name: 'orders'}">manage</router-link>
+                    <router-link :to="{name: 'orders'}" v-permissions:admin>manage</router-link>
                 </li>
             </ul>
             <div class="logo">

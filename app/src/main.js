@@ -6,6 +6,9 @@ import router from './router'
 // resources
 import Vue from './resources'
 
+// permissions
+import Vue from "./directives/permissions"
+
 // main component
 import app from "./components/app"
 

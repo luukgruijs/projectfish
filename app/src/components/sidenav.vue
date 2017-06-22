@@ -2,13 +2,13 @@
     <aside class="sidenav">
         <ul>
             <li>
-                <router-link :to="{name: 'orders'}">Lunch orders</router-link>
+                <router-link :to="{name: 'orders'}" v-permissions:admin>Lunch orders</router-link>
             </li>
             <li>
-                <router-link :to="{name: 'items'}">Manage lunch items</router-link>
+                <router-link :to="{name: 'items'}" v-permissions:admin>Manage lunch items</router-link>
             </li>
             <li>
-                <router-link :to="{name: 'users'}">Manage users</router-link>
+                <router-link :to="{name: 'users'}" v-permissions:admin>Manage users</router-link>
             </li>
             <li>
                 <!-- <router-link :to="{name: 'settings'}">Settings</router-link> -->

@@ -3,15 +3,14 @@
         <h1>Order</h1>
         <form>
             <input type="text" placeholder="search items" v-model="search"/>
-            <input type="submit" value="search" class="button action" @search.prevent="search"/>
         </form>
         <div class="row">
             <div class="items">
                 <div class="item" v-for="item in filtered_items" @click="addToBasket(item, $event)">
                     <span><a href="#"></a></span><p>{{item.name}}</p><p>{{item.price}}</p>
                 </div>
-                <div class="no_items" v-if="items.length === 0">
-                    <p>No items yet</p>
+                <div class="no_items" v-if="filtered_items.length === 0">
+                    <p>No items to display</p>
                 </div>
             </div>
             <div class="basket">
@@ -115,6 +114,7 @@
                 this.$http.post("order", order).then((order) => {
                     self.basket = []
                     self.basket_total = 0
+                    bus.$emit("open__snackbar", "Succesfully submitted order", 5000)
                 })
             }
         }
@@ -135,16 +135,14 @@
             width: 100%;
             display: flex;
             input {
-                width: 87.5%;
+                width: 100%;
                 line-height: 40px;
                 padding-left: 10px;
                 margin-right: auto;
-                &[type='submit'] {
-                    width: 10%;
-                    margin-left: auto;
-                    margin-right: 0;
-                    font-size: 14px;
-                }
+                border: 1px solid darken($gray, 5%);
+                font-size: 12px;
+                font-weight: 400;
+                outline: none;
             }
         }
 
