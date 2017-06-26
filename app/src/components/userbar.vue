@@ -4,7 +4,7 @@
             <div class="single__create">
                 <div class="header">
                     <h2><span v-if="!edit_mode">Add</span> <span v-if="edit_mode"> Edit</span> user</h2>
-                    <i class="icon close" @click.prevent="closeActionBar()">x</i>
+                    <i class="material-icons close" @click.prevent="closeActionBar()">close</i>
                 </div>
                 <form>
                     <fieldset>

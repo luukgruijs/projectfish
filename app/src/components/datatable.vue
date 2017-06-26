@@ -11,6 +11,7 @@
                     <span v-if="field === 'created_at'">{{ item[field] | date }}</span>
                     <span v-if="field !== 'created_at'">{{ item[field] }}</span>
                 </td>
+                <span class="delete"><i class="material-icons close" @click.prevent="deleteClicked(item)">close</i></span>
             </tr>
             <tr v-if="data.length === 0">
                 <td colspan="data.length">Nothing to show yet</td>
@@ -31,6 +32,9 @@
         methods: {
             rowClicked(item) {
                 this.$emit("rowClicked", item)
+            },
+            deleteClicked(item) {
+                this.$emit("deleteClicked", item)
             }
         }
     }
@@ -70,12 +74,25 @@
                 border: 1px solid darken($gray, 5%);
                 width: 99%;
                 display: flex;
+                position: relative;
                 &:nth-child(even) {
                     background-color: darken(white, 1%)
+                }
+                &:hover {
+                    cursor: pointer;
+                    .close {
+                        display: block;
+                    }
                 }
                 td {
                     padding: 0 15px;
                     width: 33%;
+                }
+                .close {
+                    position: absolute;
+                    right: 10px;
+                    top: 18px;
+                    display: none;
                 }
             }
         }

@@ -7,7 +7,7 @@
                 <a href="#" @click.prevent="openActionBar()">Add more items</a>
             </div>
 
-            <datatable :data="items" :fields="['name', 'category', 'price']" @rowClicked="onEdit($event)"></datatable>
+            <datatable :data="items" :fields="['name', 'category', 'price']" @rowClicked="onEdit($event)" @deleteClicked="onDelete($event)"></datatable>
         </div>
         <itembar id="itembar" :item="active_item" @reload="fetch()"></itembar>
     </div>
@@ -43,10 +43,22 @@
                 this.active_item = {};
                 document.getElementById("itembar").classList.add("open")
             },
-
             onEdit(event) {
                 this.active_item = event
                 document.getElementById("itembar").classList.add("open")
+            },
+            onDelete(event) {
+                this.$http.delete(`items/${event._id}`).then((response) => {
+
+                    // remove the deleted item from the array
+                    this.items = this.items.filter((item) => {
+                        if (response.body.item._id === item._id) {
+                            return false
+                        } else {
+                            return true
+                        }
+                    })
+                })
             }
         }
     }

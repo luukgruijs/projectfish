@@ -23,4 +23,14 @@ module.exports = (app) => {
             model.user
         )
     })
+
+    app.post("/users/:id", middleware.verify, (request, response, next) => {
+        rest.update(
+            request,
+            response,
+            next,
+            model.user,
+            { "_id": request.params.id }
+        )
+    })
 }

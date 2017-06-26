@@ -16,6 +16,12 @@ module.exports = function Item(mongoose) {
             "desc": "The price of the item",
             "required": true,
             "type": Number,
+        },
+        "deleted": {
+            "desc": "Deleted state of item, we don't want to actually remove it as our orders will get corrupt then",
+            "required": true,
+            "type": Boolean,
+            "default": false
         }
     })
 

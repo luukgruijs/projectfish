@@ -37,6 +37,12 @@ module.exports = function User(mongoose) {
             "default": [],
             "desc": "All the orders a user has done",
             "type": [mongoose.Schema.Types.ObjectId]
+        },
+        "disabled": {
+            "default": false,
+            "required": true,
+            "desc": "disabled state of user, we cannot delete the user. Else our orders will get corrupted",
+            "type": Boolean,
         }
     })
 
