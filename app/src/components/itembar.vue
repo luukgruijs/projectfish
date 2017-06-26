@@ -3,18 +3,18 @@
         <div class="action__bar--inner">
             <div class="single__create">
                 <div class="header">
-                    <h2>add single item</h2>
+                    <h2><span  v-if="!edit_mode">Add</span><span v-if="edit_mode">Edit</span> single item</h2>
                     <i class="icon close" @click.prevent="closeActionBar()">x</i>
                 </div>
                 <form>
                     <fieldset>
                         <input type="text" placeholder="Item name " v-model="name" required/>
                         <input type="number" placeholder="Price name " v-model="price" required/>
-                        <input type="submit" value="add item" class="button action" @click.prevent="createItem()">
+                        <input type="submit" value="Save item" class="button action" @click.prevent="createItem()">
                     </fieldset>
                 </form>
             </div>
-            <div class="multiple__create">
+            <div class="multiple__create" v-if="!edit_mode">
                 <div class="header">
                     <h2>add multiple using csv</h2>
                 </div>
@@ -36,6 +36,7 @@
         props: ["item"],
         data() {
             return {
+                edit_mode: false,
                 type: "create",
                 name: "",
                 price: "",
@@ -47,16 +48,27 @@
         },
         watch: {
             item(value) {
-                if (value) {
-                    this.name = value.name;
-                    this.price = value.price;
+                if (value && value.name && value.price) {
+                    this.name = value.name
+                    this.price = value.price
                     this.type = "edit"
                     this._id = value._id
+                    this.edit_mode = true
+                } else {
+                    this.edit_mode = false
+                }
+            },
+            edit_mode(value) {
+                if (!value) {
+                    this.name = ""
+                    this._id = ""
+                    this.price = ""
                 }
             }
         },
         methods: {
             closeActionBar() {
+                this.edit_mode = false;
                 document.querySelector(".action__bar").classList.remove("open")
             },
             createItem() {

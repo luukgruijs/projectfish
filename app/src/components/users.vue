@@ -7,9 +7,9 @@
                 <a href="#" @click.prevent="openActionBar()">Add more users</a>
             </div>
 
-            <datatable :data="users" :fields="['name', 'email', 'role']"></datatable>
+            <datatable :data="users" :fields="['name', 'email', 'role']" @rowClicked="onEdit($event)"></datatable>
         </div>
-        <userbar id="userbar" @reload="fetch()"></userbar>
+        <userbar id="userbar" :user="active_user" @reload="fetch()"></userbar>
     </div>
 </template>
 
@@ -24,6 +24,7 @@
 
         data() {
             return {
+                active_user: "",
                 users: [],
             }
         },
@@ -38,9 +39,13 @@
                     this.users = users.body
                 })
             },
-            openActionBar: () => {
+            openActionBar() {
                 document.getElementById("userbar").classList.add("open")
             },
+            onEdit(event) {
+                this.active_user = event
+                document.getElementById("userbar").classList.add("open")
+            }
         }
     }
 </script>

@@ -40,6 +40,7 @@
                 })
             },
             openActionBar() {
+                this.active_item = {};
                 document.getElementById("itembar").classList.add("open")
             },
 
