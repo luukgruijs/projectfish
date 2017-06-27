@@ -10,7 +10,6 @@ module.exports = (app) => {
         const items = model.item.find({deleted: false}).exec()
 
         items.then((items) => {
-            console.log(items)
             if (items) {
                 response.json(items)
             }

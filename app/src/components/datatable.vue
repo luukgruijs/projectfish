@@ -11,7 +11,7 @@
                     <span v-if="field === 'created_at'">{{ item[field] | date }}</span>
                     <span v-if="field !== 'created_at'">{{ item[field] }}</span>
                 </td>
-                <span class="delete"><i class="material-icons close" @click.prevent="deleteClicked(item)">close</i></span>
+                <span v-if="deleteable" class="delete"><i class="material-icons close" @click.prevent="deleteClicked(item)">close</i></span>
             </tr>
             <tr v-if="data.length === 0">
                 <td colspan="data.length">Nothing to show yet</td>
@@ -25,7 +25,7 @@
 
     export default {
         name: "datatable",
-        props: ["data", "fields"],
+        props: ["data", "fields", "deleteable"],
         data() {
             return {}
         },
