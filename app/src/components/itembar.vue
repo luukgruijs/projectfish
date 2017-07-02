@@ -1,5 +1,5 @@
-<template>
-    <div class="action__bar">
+ <template>
+    <div class="action__bar" id="itembar">
         <div class="action__bar--inner">
             <div class="single__create">
                 <div class="header">

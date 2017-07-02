@@ -7,7 +7,7 @@
                 <a href="#" @click.prevent="openActionBar()">Add more users</a>
             </div>
 
-            <datatable :data="users" :fields="['name', 'email', 'role']" @rowClicked="onEdit($event)" @deleteClicked="onDelete($event)"></datatable>
+            <datatable :data="users" :fields="['name', 'email', 'role']" @rowClicked="onEdit($event)" @deleteClicked="onDelete($event)" :deleteable="true"></datatable>
         </div>
         <userbar id="userbar" :user="active_user" @reload="fetch()"></userbar>
     </div>
