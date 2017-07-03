@@ -65,7 +65,8 @@ module.exports = (app) => {
                         let obj = {
                             "name": row[0],
                             "email": row[1],
-                            "role": row[2]
+                            "role": row[2],
+                            "disabled": false
                         }
 
                         // Create item from each obj

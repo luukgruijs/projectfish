@@ -6,19 +6,20 @@
             </div>
         </div>
         <div class="container">
-            <div id="latestorders">
+            <div class="popular__items">
+                <h2>Most popular items</h2>
+                <canvas id="popularitemschart"></canvas>
+            </div>
+            <div id="latestorders" class="latest__orders">
+                <h2>Latest orders</h2>
+                <p><span>User</span><span>Items</span></p>
                 <ul>
                     <li v-for="order in latest_orders">
                         <div>{{order.user}}</div>
-                        <div>
-                            <span v-for="item in order.items">
-                                {{item.item.name + " "}}
-                            </span>
-                        </div>
+                        <div>{{order.items | truncate(40)}}</div>
                     </li>
                 </ul>
             </div>
-            <div id="ordertypeschart"></div>
         </div>
     </div>
 </template>
@@ -54,15 +55,16 @@
                     self.users = data[1].body
 
                     self.drawOrderChart()
+                    self.drawItemsChart()
                     self.generateOrderList()
                 })
             },
             generateOrderList() {
                 var self = this
-                let latest_orders = this.orders.slice(-15)
+                // let latest_orders = this.orders.slice(-15)
 
                 // generate list with latest orders
-                this.latest_orders = latest_orders.map((order) => {
+                this.latest_orders = self.orders.map((order) => {
 
                     // find user that corresponts to order.user._id
                     let user = self.users.filter((user) => {
@@ -73,6 +75,16 @@
 
                     // assing user to object
                     order.user = user[0]
+
+                    // get array of item names
+                    order.items = order.items.reduce((item_string, item, index) => {
+                        item_string += item.item.name
+                        if (index !== order.items.length) {
+                            item_string += ","
+                        }
+
+                        return item_string
+                    }, "")
 
                     // return order
                     return order
@@ -117,7 +129,9 @@
                         "label": "Order count per day",
                         "data": Object.keys(order_count).map((order) => {
                             return order_count[order]
-                        })
+                        }),
+                        "borderColor": "rgb(132, 189, 147)",
+                        "fill": false
                     })
 
                     return data
@@ -132,6 +146,58 @@
                     "data": data(),
                     "options": options
                 })
+            },
+            drawItemsChart() {
+                var self = this
+
+                // get count of unique item names
+                let count_items = self.orders.reduce((items, order) => {
+                    order.items.map((item) => {
+                        if (items[item.item.name]) {
+                            items[item.item.name] += 1
+                        } else {
+                            items[item.item.name] = 1;
+                        }
+                        return item
+                    })
+
+                    return items
+                }, {})
+
+                let ctx = document.getElementById("popularitemschart")
+
+                let data = {
+                    "labels": Object.keys(count_items).map((item) => {
+                        return item
+                    }),
+                    "datasets": [{
+                        "label": "Count per item",
+                        "data": Object.keys(count_items).map((item) => {
+                            return count_items[item]
+                        }),
+                        "backgroundColor": "rgb(132, 189, 147)",
+                        "borderColor": "rgb(132, 189, 147)",
+                        "borderWidth": 1
+                    }]
+                }
+
+                // set options for chart
+                let options = {
+                    "scales": {
+                        "yAxes": [{
+                            "ticks": {
+                                "beginAtZero": true
+                            }
+                        }]
+                    }
+                }
+
+                // generate chart of count items
+                let barchart = new Chart(ctx, {
+                    "type": "horizontalBar",
+                    "data": data,
+                    "options": options
+                })
             }
         }
     }
@@ -142,10 +208,47 @@
         width: 100%;
         margin-top: 75px;
         height: 100%;
-        .order__chart {
-            width: 100%;
-            height: 300px;
-            position: relative;
+        .container {
+            height: auto;
+            .order__chart {
+                width: 100%;
+                height: 300px;
+                position: relative;
+            }
+
+            .latest__orders, .popular__items{
+                width: 45%;
+                padding: 20px 0;
+                h2 {
+                    margin-bottom: 20px;
+                }
+            }
+            .popular__items {
+                margin-right: auto;
+            }
+            .latest__orders {
+                margin-left: auto;
+                p {
+                    width: 100%;
+                    display: flex;
+                    margin-bottom: 5px;
+                    span {
+                        width: 50%;
+                    }
+                }
+                ul {
+                    overflow-y: scroll;
+                    max-height: 350px;
+                    li {
+                        line-height: 45px;
+                        border: 1px solid $gray;
+                        padding: 0 10px;
+                        div {
+                            width: 50%;
+                        }
+                    }
+                }
+            }
         }
     }
 </style>
