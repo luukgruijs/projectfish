@@ -210,6 +210,9 @@
         height: 100%;
         .container {
             height: auto;
+            &:last-child {
+                margin-top: 50px;
+            }
             .order__chart {
                 width: 100%;
                 height: 300px;
@@ -218,13 +221,14 @@
 
             .latest__orders, .popular__items{
                 width: 45%;
-                padding: 20px 0;
                 h2 {
                     margin-bottom: 20px;
                 }
             }
             .popular__items {
                 margin-right: auto;
+                canvas {
+                }
             }
             .latest__orders {
                 margin-left: auto;
@@ -234,15 +238,20 @@
                     margin-bottom: 5px;
                     span {
                         width: 50%;
+                        padding-left: 10px;
                     }
                 }
                 ul {
                     overflow-y: scroll;
                     max-height: 350px;
                     li {
-                        line-height: 45px;
+                        line-height: 60px;
                         border: 1px solid $gray;
                         padding: 0 10px;
+                        background-color: $white;
+                        &:nth-child(even) {
+                            background-color: darken(white, 1%)
+                        }
                         div {
                             width: 50%;
                         }

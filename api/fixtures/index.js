@@ -14,6 +14,7 @@ exports.startup = function() {
             user.email = config.email
             user.password = config.password
             user.role = "admin"
+            user.disabled = false
             user.save()
         }
     })
