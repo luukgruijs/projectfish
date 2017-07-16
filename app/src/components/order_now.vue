@@ -7,7 +7,7 @@
         <div class="row">
             <div class="items">
                 <div class="item" v-for="item in filtered_items" @click="addToBasket(item, $event)">
-                    <span><a href="#"></a></span><p>{{item.name}}</p><p>{{item.price}}</p>
+                    <span><a href="#"></a></span><p>{{item.name}}</p><p>{{item.price | currency}}</p>
                 </div>
                 <div class="no_items" v-if="filtered_items.length === 0">
                     <p>No items to display</p>
@@ -110,10 +110,20 @@
                     "user": JSON.parse(window.sessionStorage.getItem("user"))._id
                 }
 
+                console.log(order.user)
+
                 // send actual order
                 this.$http.post("order", order).then((order) => {
                     self.basket = []
                     self.basket_total = 0
+
+                    // remove active class
+                    let items = document.querySelectorAll(".item.active")
+                    items.forEach((item) => {
+                        item.classList.remove("active")
+                    })
+
+                    // show succes message
                     bus.$emit("open__snackbar", "Succesfully submitted order", 5000)
                 })
             }

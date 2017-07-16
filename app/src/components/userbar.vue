@@ -10,7 +10,7 @@
                     <fieldset>
                         <input type="text" placeholder="name" v-model="name" required/>
                         <input type="text" placeholder="email" v-model="email" required/>
-                        <input type="submit" value="Save user" class="button action" @click.prevent="createUser()">
+                        <input type="submit" value="Save user" class="button action" @click.prevent="saveUser()">
                     </fieldset>
                 </form>
             </div>
@@ -37,8 +37,9 @@
         data() {
             return {
                 edit_mode: false,
-                name: "",
                 email: "",
+                name: "",
+                _id: "",
                 headers: {
                     "x-access-token": JSON.parse(window.sessionStorage.getItem("user")).token
                 }
@@ -46,10 +47,10 @@
         },
         watch: {
             user(value) {
-                console.log(value)
                 if (value) {
                     this.name = value.name
                     this.email = value.email
+                    this._id = value._id
                     this.edit_mode = true
                 } else {
                     this.edit_mode = false
@@ -67,21 +68,34 @@
                 this.edit_mode = false;
                 document.querySelector(".action__bar").classList.remove("open")
             },
-            createUser() {
+            saveUser() {
                 if (this.name && this.email) {
+
 
                     let user = {
                         "name": this.name,
                         "email": this.email,
                     }
 
-                    this.$http.post("users", user).then((item) => {
-                        bus.$emit("open", "test", 5000)
-                        document.querySelector(".action__bar").classList.remove("open")
+                    if (this.edit_mode) {
+                        user._id = this._id
 
-                        // reload
-                        this.$emit("reload")
-                    })
+                        this.$http.post(`users/${user._id}`, user).then((response) => {
+                            bus.$emit("open__snackbar", `succesfully updated ${user.name}`, 5000)
+                            document.querySelector(".action__bar").classList.remove("open")
+
+                            // reload
+                            this.$emit("reload")
+                        })
+                    } else {
+                        this.$http.post("users", user).then((response) => {
+                            bus.$emit("open__snackbar", `succesfully created ${user.name}`, 5000)
+                            document.querySelector(".action__bar").classList.remove("open")
+
+                            // reload
+                            this.$emit("reload")
+                        })
+                    }
                 }
             },
             uploadSuccess() {

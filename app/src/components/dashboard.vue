@@ -15,7 +15,7 @@
                 <p><span>User</span><span>Items</span></p>
                 <ul>
                     <li v-for="order in latest_orders">
-                        <div>{{order.user}}</div>
+                        <div>{{order.user.name}}</div>
                         <div>{{order.items | truncate(40)}}</div>
                     </li>
                 </ul>
@@ -79,7 +79,7 @@
                     // get array of item names
                     order.items = order.items.reduce((item_string, item, index) => {
                         item_string += item.item.name
-                        if (index !== order.items.length) {
+                        if (index + 1 !== order.items.length) {
                             item_string += ","
                         }
 
@@ -247,13 +247,14 @@
                     li {
                         line-height: 60px;
                         border: 1px solid $gray;
-                        padding: 0 10px;
                         background-color: $white;
+                        display: flex;
                         &:nth-child(even) {
                             background-color: darken(white, 1%)
                         }
                         div {
                             width: 50%;
+                            padding: 0 10px;
                         }
                     }
                 }

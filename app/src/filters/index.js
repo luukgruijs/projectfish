@@ -5,10 +5,6 @@ Vue.filter("date", (value) => {
     return format(value, "DD-MM-YYYY")
 })
 
-Vue.filter("date", (value) => {
-    return format(value, "DD-MM-YYYY")
-})
-
 Vue.filter("truncate", (text, length, clamp) => {
       clamp = clamp || "...";
       length = length || 30;
@@ -28,5 +24,9 @@ Vue.filter("truncate", (text, length, clamp) => {
 
       return truncated_text + clamp;
 });
+
+Vue.filter("currency", (value) => {
+   return value / Math.pow(10, 2)
+})
 
 export default Vue

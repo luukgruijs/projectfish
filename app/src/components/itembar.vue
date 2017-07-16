@@ -75,22 +75,22 @@
                 if (this.name && this.price) {
                     let item = {
                         "name": this.name,
-                        "price": this.price,
+                        "price": this.price * Math.pow(10, 2),
                         "category": "fish"
                     }
 
                     // check type and do update/post
                     if (this.type === "create") {
-                        this.$http.post("items", item).then((item) => {
-                            bus.$emit("open__snackbar", "test", 5000)
+                        this.$http.post("items", item).then((response) => {
+                            bus.$emit("open__snackbar", `succesfully updated ${item.name}`, 5000)
                             document.querySelector(".action__bar").classList.remove("open")
 
                             // reload
                             this.$emit("reload")
                         })
                     } else {
-                        this.$http.post("items/"+this._id, item).then((item) => {
-                            bus.$emit("open__snackbar", "test", 5000)
+                        this.$http.post("items/"+this._id, item).then((response) => {
+                            bus.$emit("open__snackbar", `succesfully updated ${item.name}`, 5000)
                             document.querySelector(".action__bar").classList.remove("open")
 
                             //reload

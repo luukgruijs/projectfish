@@ -4,13 +4,13 @@ import Vue from "vue"
 import router from './router'
 
 // resources
-import Vue from './resources'
+import { Vue as resources } from './resources'
 
 // permissions
-import Vue from "./directives/permissions"
+import { Vue as permissions } from "./directives/permissions"
 
 // filters
-import Vue from "./filters"
+import { Vue as filters }  from "./filters"
 
 // main component
 import app from "./components/app"

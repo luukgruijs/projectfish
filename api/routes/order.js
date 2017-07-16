@@ -29,7 +29,7 @@ module.exports = (app) => {
         // process order
         order.then((order) => {
             if (order && order._id) {
-                response.json({"message": "You allready ordered something today"})
+                response.status("400").json({"message": "You allready ordered something today"})
             } else {
 
                 // create order

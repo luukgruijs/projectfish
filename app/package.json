@@ -20,6 +20,7 @@
     "webpack": "2.5.1"
   },
   "devDependencies": {
+    "babel-loader": "7.1.1",
     "copy-webpack-plugin": "4.0.1",
     "css-loader": "^0.28.1",
     "eventsource-polyfill": "0.9.6",

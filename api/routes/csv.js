@@ -24,10 +24,13 @@ module.exports = (app) => {
                     for (let i = 0; i < output.length; i++) {
                         let row = output[i]
 
+                        let number = row[2].replace(",", ".")
+                        let amount = number * Math.pow(10, 2)
+
                         let obj = {
                             "name": row[0],
                             "category": row[1],
-                            "price": Number(row[2])
+                            "price": amount
                         }
 
                         // Create item from each obj
