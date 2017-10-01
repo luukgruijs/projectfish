@@ -60,6 +60,13 @@ const routes = [
             require(['@/components/users.vue'], resolve)
         },
     },
+    {
+        path: "/manage/settings",
+        name: "settings",
+        component: function (resolve) {
+            require(['@/components/settings.vue'], resolve)
+        },
+    },
 ]
 
 const router = new Router({routes})

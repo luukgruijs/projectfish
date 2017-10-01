@@ -10,13 +10,18 @@
                     <fieldset>
                         <input type="text" placeholder="name" v-model="name" required/>
                         <input type="text" placeholder="email" v-model="email" required/>
+                        <select v-model="role" required>
+                            <option value="" disabled selected>Select permission</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
                         <input type="submit" value="Save user" class="button action" @click.prevent="saveUser()">
                     </fieldset>
                 </form>
             </div>
             <div class="multiple__create" v-if="!edit_mode">
                 <div class="header">
-                    <h2>add multiple using csv</h2>
+                    <h2>Add multiple using csv</h2>
                 </div>
                 <dropzone id="user_dropzone" url="http://localhost:8000/v1/csv/users" v-bind:headers="headers" v-on:vdropzone-success="uploadSuccess">
                     <input type="hidden" name="token" value="xxx">
@@ -39,6 +44,7 @@
                 edit_mode: false,
                 email: "",
                 name: "",
+                role: "",
                 _id: "",
                 headers: {
                     "x-access-token": JSON.parse(window.sessionStorage.getItem("user")).token

@@ -18,4 +18,14 @@ exports.startup = function() {
             user.save()
         }
     })
+
+    const settings = models.settings.findOne().exec()
+    settings.then((settings) => {
+        console.log(settings);
+        if (!settings) {
+            let settings = new models.settings
+            settings.budget = 0
+            settings.save()
+        }
+    })
 }

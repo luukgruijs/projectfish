@@ -11,7 +11,7 @@
                 <router-link :to="{name: 'users'}" v-permissions:admin>Manage users</router-link>
             </li>
             <li>
-                <!-- <router-link :to="{name: 'settings'}">Settings</router-link> -->
+                <router-link :to="{name: 'settings'}" v-permissions:admin>Settings</router-link>
             </li>
         </ul>
     </aside>

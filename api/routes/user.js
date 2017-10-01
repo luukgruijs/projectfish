@@ -3,6 +3,8 @@
 const model = require("../models")
 const rest = require("../rest")
 const middleware = require("../middleware")
+const mailer = require("../helpers/mailer")
+const config = require("../config")
 
 module.exports = (app) => {
 
@@ -18,12 +20,16 @@ module.exports = (app) => {
     })
 
     app.post("/users", middleware.verify, (request, response, next) => {
-        rest.create(
-            request,
-            response,
-            next,
-            model.user
-        )
+        model.user.create(request.body).then((user) => {
+            let msg = {
+                "from": config.email_sender,
+                "subject": 'activate your account',
+                "text": 'this is a test email',
+                "to": `${user.name} <${user.email}>`
+            }
+
+            return mailer(msg);
+        })
     })
 
     app.post("/users/:id", middleware.verify, (request, response, next) => {

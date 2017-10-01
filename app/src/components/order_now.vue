@@ -17,10 +17,10 @@
                 <div class="basket__inner">
                     <h2>Your order</h2>
                     <div class="item" v-for="item in basket">
-                        <p>{{item.name}}</p><p>{{item.price}}</p>
+                        <p>{{item.name}}</p><p>{{item.price | currency}}</p>
                     </div>
                     <div class="basket__total">
-                        <b>Total: </b> <span>{{basket_total}}</span>
+                        <b>Total: </b> <span>{{basket_total | currency}} of {{budget | currency}}</span>
                     </div>
                     <div class="submit__order" v-if="basket.length > 0">
                         <a href="#" @click.prevent="submitOrder()" class="button action">Send order</a>
@@ -41,13 +41,12 @@
                 "basket_total": 0,
                 "items": [],
                 "search": "",
+                "budget": 0,
             }
         },
 
         created() {
-            this.$http.get("items").then((items) => {
-                this.items = items.data
-            })
+            this.fetch()
         },
 
         computed: {
@@ -59,6 +58,15 @@
         },
 
         methods: {
+            fetch() {
+                this.$http.get("items").then((items) => {
+                    this.items = items.data
+                })
+
+                this.$http.get("settings").then((settings) => {
+                    this.budget = settings.body[0].budget
+                })
+            },
             addToBasket(item, event) {
 
                 // item is allready active
@@ -93,39 +101,42 @@
             submitOrder() {
                 var self = this
 
-                let order = {
-                    "amount": this.basket.reduce((amount, item) => {
-                        return amount + item.price
-                    }, 0),
-                    "items": this.basket.reduce((basket, item) => {
-                        let obj = {}
+                if (this.basket_total <= this.budget) {
 
-                        obj.item = item
-                        obj.quantity = 1
+                    let order = {
+                        "amount": this.basket.reduce((amount, item) => {
+                            return amount + item.price
+                        }, 0),
+                        "items": this.basket.reduce((basket, item) => {
+                            let obj = {}
 
-                        basket.push(obj)
-                        return basket
+                            obj.item = item
+                            obj.quantity = 1
 
-                    }, []),
-                    "user": JSON.parse(window.sessionStorage.getItem("user"))._id
-                }
+                            basket.push(obj)
+                            return basket
 
-                console.log(order.user)
+                        }, []),
+                        "user": JSON.parse(window.sessionStorage.getItem("user"))._id
+                    }
 
-                // send actual order
-                this.$http.post("order", order).then((order) => {
-                    self.basket = []
-                    self.basket_total = 0
+                    // send actual order
+                    this.$http.post("order", order).then((order) => {
+                        self.basket = []
+                        self.basket_total = 0
 
-                    // remove active class
-                    let items = document.querySelectorAll(".item.active")
-                    items.forEach((item) => {
-                        item.classList.remove("active")
+                        // remove active class
+                        let items = document.querySelectorAll(".item.active")
+                        items.forEach((item) => {
+                            item.classList.remove("active")
+                        })
+
+                        // show succes message
+                        bus.$emit("open__snackbar", "Succesfully submitted order", 5000)
                     })
-
-                    // show succes message
-                    bus.$emit("open__snackbar", "Succesfully submitted order", 5000)
-                })
+                } else {
+                    bus.$emit("open__snackbar", "Your order exceeds the maximum budget", 5000)
+                }
             }
         }
     }
