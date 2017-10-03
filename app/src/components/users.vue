@@ -10,7 +10,7 @@
             <datatable :data="users" :fields="['name', 'email', 'role']" @rowClicked="onEdit($event)" @deleteClicked="confirmDelete($event)" :deleteable="true"></datatable>
         </div>
         <userbar id="userbar" :user="active_user" @reload="fetch()"></userbar>
-        <confirm v-if="show_confirm" :item="active_user" :message="confirm_message" @confirm="onDelete(confirmed)"></confirm>
+        <confirm v-if="show_confirm" :item="active_user" :message="confirm_message" @confirm="onDelete($event)" @cancel="closeConfirm()"></confirm>
     </div>
 </template>
 
@@ -55,10 +55,13 @@
                 this.confirm_message = `Are your sure you want to disable ${event.name}?`
                 this.show_confirm = true
             },
+            closeConfirm() {
+                this.show_confirm = false
+            },
             onDelete(confirmed) {
                 var self = this
                 if (confirmed) {
-                    let user = event;
+                    let user = this.active_user;
                     user.disabled = true;
 
                     this.$http.post(`users/${user._id}`, user).then((response) => {
