@@ -1,0 +1,6 @@
+Dockerfile
+.dockerignore
+.git
+.DS_Store
+node_modules
+!*/package.json

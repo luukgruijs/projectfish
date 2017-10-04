@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:3.2.12
+    ports:
+      - "27017"
+    volumes:
+      - mongo-data:/data/db
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./services/nginx/certs:/etc/ssl/certs/
+    ports:
+      - "8000"
+    links:
+      - app
+    depends_on:
+      - app
+  app:
+    image: "fish"
+    build:
+      context: "./"
+    volumes:
+       - "./app:/app"
+       - "./api:/api"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    ports:
+      - "8002"
+    environment:
+      NODE_PATH: "/"
+
+volumes:
+  mongo-data:
