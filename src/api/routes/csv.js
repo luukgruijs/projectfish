@@ -106,5 +106,5 @@ module.exports = (app) => {
                 .catch(next)
 
             })
-        })
+        })d
 }

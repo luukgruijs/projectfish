@@ -67,5 +67,23 @@ module.exports = {
         message: "You don't have enough permissions to perform this action",
         name: "INSUFFICIENT_PERMISSIONS",
         format: nothing,
+    },
+    107: {
+        http_status: http_status.BAD_REQUEST,
+        message: "You did not submit a csv, please submit a csv",
+        name: "NOT_A_CSV",
+        format: nothing,
+    }
+    108: {
+        http_status: http_status.BAD_REQUEST,
+        message: "You CSV headers are not correct, They should be name, category and price",
+        name: "ITEM_CSV_HEADERS",
+        format: nothing,
+    }
+    109: {
+        http_status: http_status.BAD_REQUEST,
+        message: "You CSV headers are not correct, They should be name, email and role",
+        name: "USER_CSV_HEADERS",
+        format: nothing,
     }
 }
