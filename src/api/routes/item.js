@@ -3,16 +3,16 @@
 const model = require("../models")
 const rest = require("../rest")
 const middleware = require("../middleware")
+const errors = require("../errors")
 
 module.exports = (app) => {
 
-    app.get("/items", middleware.verify, (request, response, next) => {
+    app.get("/items",
+        middleware.verify,
+        (request, response, next) => {
         const items = model.item.find({deleted: false}).exec()
-
-        items.then((items) => {
-            if (items) {
-                response.json(items)
-            }
+        .then((items) => {
+            response.json(items)
         })
     })
 
@@ -38,14 +38,15 @@ module.exports = (app) => {
     app.delete("/items/:id", middleware.verify, (request, response, next) => {
 
         const item = model.item.findById(request.params.id).exec()
-
-        item.then((item) => {
-            if (item) {
-                item.deleted = true
-                item.save()
-
-                response.json({"message": "Succesfully deleted item", "item": item})
+        .then((item) => {
+            if (!item) {
+                throw(errors.RESOURCE_NOT_FOUND())
             }
+
+            item.deleted = true
+            item.save()
+
+            response.json(item)
         })
     })
 }

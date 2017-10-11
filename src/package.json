@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cd api && nodemon app.js"
+    "start": "cd app && npm start"
   }
 }

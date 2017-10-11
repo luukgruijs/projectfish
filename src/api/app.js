@@ -5,7 +5,17 @@ mongoose.Promise    = require("bluebird")
 const bodyParser    = require("body-parser")
 const config        = require("./config")
 const fixtures      = require("./fixtures")
-const app           = express()
+const http          = require("http")
+const fs            = require("fs")
+const path          = require("path")
+const server        = express()
+const errors        = require("./errors")
+
+var app = module.exports = server
+
+// set default engine
+app.use("/", express.static(path.join(__dirname, "..", "app", "views")))
+app.set('view engine', 'html');
 
 // configure bodyparser
 app.use(bodyParser.urlencoded({extended: true}))
@@ -44,11 +54,13 @@ app.use((req, res, next) => {
     return
 })
 
+// serve index file
+app.get("/", (req, res) => {
+    res.render(fs.readFileSync(path.join(__dirname, "..", "app", "index.html")).toString())
+})
+
 // mount api under /api
 app.use("/v1", routes)
 
-// start up app
-if (config.environment === "dev") {
-    app.listen(config.port)
-    console.log(`Magic happens on port ${config.port}`)
-}
+// set custom error handler
+app.use(errors.handler)

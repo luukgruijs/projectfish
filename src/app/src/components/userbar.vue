@@ -12,7 +12,7 @@
                         <input type="text" placeholder="email" v-model="email" required/>
                         <select v-model="role" required>
                             <option value="" disabled selected>Select permission</option>
-                            <option value="user">User</option>
+                            <option value="user" v-if="role !== 'admin'">User</option>
                             <option value="admin">Admin</option>
                         </select>
                         <input type="submit" value="Save user" class="button action" @click.prevent="saveUser()">
@@ -54,8 +54,10 @@
         watch: {
             user(value) {
                 if (value) {
+                    console.log(value);
                     this.name = value.name
                     this.email = value.email
+                    this.role = value.role
                     this._id = value._id
                     this.edit_mode = true
                 } else {

@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "testdata": "node -e require('./fixtures').generate()"
+    "testdata": "node -e require('./fixtures').generate()",
+    "start": "app.js"
   },
   "author": "",
   "license": "ISC",

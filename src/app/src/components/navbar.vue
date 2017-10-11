@@ -1,5 +1,5 @@
 <template>
-    <header class="navbar" v-if="$route.path !== '/'">
+    <header class="navbar" v-if="currentUser">
         <div class="container">
             <ul>
                 <li>
@@ -16,9 +16,7 @@
                 <li>
                     <router-link :to="{name: 'ordernow'}" class="button action">order now</router-link>
                 </li>
-                <li>
-                    Luuk Gruijs
-                </li>
+                <li @click.prevent="logout()">Logout</li>
             </ul>
         </div>
     </header>
@@ -27,8 +25,21 @@
 <script>
     export default {
         data() {
-            return {}
+            return {
+                current_user: '',
+            }
         },
+        computed: {
+            currentUser: () => {
+                return JSON.parse(window.sessionStorage.getItem('user')) ? true : false
+            },
+        },
+        methods: {
+            logout() {
+                window.sessionStorage.removeItem('user');
+                this.$router.push("/")
+            },
+        }
     }
 </script>
 
@@ -58,6 +69,13 @@
             li {
                 display: inline-block;
                 line-height: 60px;
+                position: relative;
+                ul {
+                    width: 100px;
+                    background-color: white;
+                    position: absolute;
+                    bottom: 0;
+                }
                 a {
                     text-decoration: none;
                     color: $black;

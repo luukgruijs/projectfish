@@ -76,8 +76,12 @@
                     background-color: transparent;
                     margin-left: auto;
                     width: 49%;
+                    outline: none;
                     &:first-of-type {
                         border-right: 2px solid $gray;
+                    }
+                    &:hover {
+                        cursor: pointer;
                     }
                 }
             }

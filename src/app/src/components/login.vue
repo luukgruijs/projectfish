@@ -9,6 +9,8 @@
                 <input type="password" placeholder="password" v-model="password" required />
                 <input type="submit" value="login" class="button action" @click.prevent="login()"/>
             </form>
+
+            <router-link :to="{name: 'forgot_password'}">I forgot my password</router-link>
         </div>
     </div>
 </template>

@@ -3,15 +3,19 @@
 const jwt = require("jsonwebtoken")
 const config = require("../config")
 const model = require("../models")
-const rest = require("../rest")
+const errors = require("../errors")
 
 module.exports = (app) => {
 
     app.post("/authenticate", (req, res, next) => {
-        const user = model.user.findOne({email: req.body.email}).select("name email password role").exec();
-
+        const user = model.user.findOne({email: req.body.email, disabled: false}).select("name email password role").exec();
         user.then((user) => {
-            // first check if password is already set
+
+            if (!user) {
+                throw(errors.INVALID_CREDENTIALS())
+            }
+
+            // first check if password is set
             const valid_password = user.comparePassword(req.body.password)
 
             if (valid_password) {
@@ -30,9 +34,9 @@ module.exports = (app) => {
                     "_id": user._id
                 })
             } else {
-                res.status(400).send({"message": "Your email or password is incorrect", "error": "credentials_incorrect"})
+                throw(errors.INVALID_CREDENTIALS())
             }
         })
-
+        .catch(next)
     })
 }

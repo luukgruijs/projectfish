@@ -9,12 +9,14 @@ RUN yum install -y bzip2 git make gcc gcc-c++
 
 RUN npm i webpack nodemon -g
 
+# copy package.json, **/package.json, ui/bower.js & lerna
+# (! see .dockerignore complete for files' list)
 COPY . .
 
 # Install deps
 RUN cd ./api && npm i
-RUN cd ./app && npm i && cd ..
+RUN cd ./app && npm i
 
-WORKDIR ./
+WORKDIR /src
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
