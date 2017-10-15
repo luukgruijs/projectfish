@@ -24,13 +24,8 @@ app.use(bodyParser.json())
 // log all requests to the console
 app.use(morgan("dev"))
 
-// connect to the database
-mongoose.connect(config.database, function() {
-    console.log("succesfully connected to mongo")
-})
-
 // testdata
-fixtures.startup()
+// fixtures.startup()
 
 // mount routes
 const routes = require("./routes")(app, express)

@@ -11,5 +11,5 @@ server.listen(config.port, (err) => {
         return
     }
 
-    console.log(`Dimebox UI listening on port ${config.port}`)
+    console.log(`Fish listening on port ${config.port}`)
 })

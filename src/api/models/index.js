@@ -1,13 +1,36 @@
 "user strict"
 
-const mongoose = require("mongoose")
+const mongoose = require("../mongoose")
 
-const schemas = {
-    "item": require("./schemas/item")(mongoose),
-    "order": require("./schemas/order")(mongoose),
-    "lunch_order": require("./schemas/lunch_order")(mongoose),
-    "user": require("./schemas/user")(mongoose),
-    "settings": require("./schemas/settings")(mongoose)
+var connected_models
+var loadModels = (load) => {
+    var all_models = [
+        "item",
+        "order",
+        "lunch_order",
+        "user",
+        "settings"
+    ]
+
+    load = load || all_models
+    mongoose.all_models = all_models
+
+    if (!connected_models) {
+        connected_models = load
+            .map((model) => {
+                return require(`./schemas/${model}`)(mongoose)
+            })
+
+        Object.keys(connected_models).forEach((name) => {
+            const lower_name = name.toLowerCase()
+            if (!connected_models[lower_name]) {
+                connected_models[lower_name] = connected_models[name]
+            }
+        })
+    }
+    console.log(connected_models)
+    return connected_models
 }
 
-module.exports = schemas
+module.exports = loadModels(null)
+module.exports.modelSchemas = mongoose.modelSchemas

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch /src/api start.js",
+    "start": "nodemon --watch /src/api app.js",
     "dev": "node build/dev-server.js",
     "build": "node build/build.js"
   },

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cd app && npm start"
+    "start": "cd app && npm start",
+    "test": "NODE_ENV=testing mocha --timeout=30000 ./api/tests/specs/*.spec.js"
   }
 }

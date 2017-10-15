@@ -7,7 +7,7 @@ RUN yum install -y nodejs
 # buildpack-deps for node modules
 RUN yum install -y bzip2 git make gcc gcc-c++
 
-RUN npm i webpack nodemon -g
+RUN npm i webpack mocha nodemon -g
 
 # copy package.json, **/package.json, ui/bower.js & lerna
 # (! see .dockerignore complete for files' list)
