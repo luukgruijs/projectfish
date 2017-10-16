@@ -2,24 +2,43 @@
 
 const mongoose = require("../mongoose")
 
+function reducePath(receiver, path, instance) {
+    if (path.length <= 1) {
+        receiver[path[0]] = instance
+        return receiver
+    }
+
+    var key = path.shift()
+    var nested = receiver[key] || {}
+    receiver[key] = nested
+    reducePath(nested, path, instance)
+
+    return receiver
+}
+
 var connected_models
 var loadModels = (load) => {
     var all_models = [
-        "item",
-        "order",
-        "lunch_order",
-        "user",
-        "settings"
+        "Item",
+        "Order",
+        "LunchOrder",
+        "User",
+        "Settings"
     ]
 
     load = load || all_models
     mongoose.all_models = all_models
 
     if (!connected_models) {
+
         connected_models = load
             .map((model) => {
-                return require(`./schemas/${model}`)(mongoose)
+                return {
+                    "instance": require(`./schemas/${model}`)(mongoose),
+                    "path": model.split("/")
+                }
             })
+            .reduce((xs, model) => reducePath(xs, model.path, model.instance), {})
 
         Object.keys(connected_models).forEach((name) => {
             const lower_name = name.toLowerCase()
@@ -28,7 +47,7 @@ var loadModels = (load) => {
             }
         })
     }
-    console.log(connected_models)
+
     return connected_models
 }
 

@@ -11,7 +11,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.lunch_order
+            model.LunchOrder
         )
     })
 
@@ -20,7 +20,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.lunch_order
+            model.LunchOrder
         )
     })
 }

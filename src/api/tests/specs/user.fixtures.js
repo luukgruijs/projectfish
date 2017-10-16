@@ -7,22 +7,20 @@ const users = {
         "_id": generators.objectId(),
         "email": "testadmin@projectfish.nl",
         "name": "luuk gruijs",
-        "role": "admin"
+        "role": "admin",
+        "password": "test",
     },
     "user": {
         "_id": generators.objectId(),
         "email": "testuser@projectfish.nl",
         "name": "luuk gruijs",
-        "role": "user"
+        "role": "user",
+        "password": "test",
     }
 }
 
-const objToArr = (obj) => Object.keys(obj).map((key) => obj[key])
-
 exports.setUp = () => exports.reset()
-    .then(() => [
-        models.user.create(objToArr(users))
-    ])
+    .then(() => models.user.create(generators.objToArr(users)))
 
 exports.reset = generators.cleanDb
 exports.users = users

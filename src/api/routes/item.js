@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.get("/items",
         middleware.verify,
         (request, response, next) => {
-        const items = model.item.find({deleted: false}).exec()
+        const items = model.Item.find({deleted: false}).exec()
         .then((items) => {
             response.json(items)
         })
@@ -21,7 +21,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.item
+            model.Item
         )
     })
 
@@ -30,14 +30,14 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.item,
+            model.Item,
             { "_id": request.params.id }
         )
     })
 
     app.delete("/items/:id", middleware.verify, (request, response, next) => {
 
-        const item = model.item.findById(request.params.id).exec()
+        const item = model.Item.findById(request.params.id).exec()
         .then((item) => {
             if (!item) {
                 throw(errors.RESOURCE_NOT_FOUND())

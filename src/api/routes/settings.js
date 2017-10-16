@@ -11,7 +11,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.settings
+            model.Settings
         )
     })
 
@@ -20,7 +20,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.settings
+            model.Settings
         )
     })
 }

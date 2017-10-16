@@ -13,7 +13,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.order
+            model.Order
         )
     })
 
@@ -24,8 +24,8 @@ module.exports = (app) => {
         // check if user already ordered today
         // check if user is not disabled
         Promise.all([
-            model.order.findOne({user: request.body.user}).where({"created_at": {$gte: startOfDay(Date.now())}}).exec(),
-            model.user.findOne({_id: request.body.user}).exec(),
+            model.Order.findOne({user: request.body.user}).where({"created_at": {$gte: startOfDay(Date.now())}}).exec(),
+            model.User.findOne({_id: request.body.user}).exec(),
         ]).then((values) => {
 
             const order = values[0];
@@ -40,11 +40,11 @@ module.exports = (app) => {
             }
 
             // create order
-            model.order.create(request.body)
+            model.Order.create(request.body)
             .then((order) => {
 
                 // create lunch order if none exists
-                const lunch_order = model.lunch_order.findOne()
+                const lunch_order = model.LunchOrder.findOne()
                     .where({"created_at": {
                             $gte: startOfDay(Date.now())
                         }
@@ -59,7 +59,7 @@ module.exports = (app) => {
                     } else {
 
                         // no orders yet today, create new one
-                        model.lunch_order.create({
+                        model.LunchOrder.create({
                             "created_at": new Date(),
                             "orders": [order._id]
                         })

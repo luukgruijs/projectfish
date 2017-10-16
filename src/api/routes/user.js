@@ -12,7 +12,7 @@ module.exports = (app) => {
         middleware.verify,
         (request, response, next) => {
 
-        const users = model.user.find({disabled: false}).exec()
+        const users = model.User.find({disabled: false}).exec()
         .then((users) => {
             response.json(users)
         })
@@ -21,7 +21,7 @@ module.exports = (app) => {
     app.post("/users",
         middleware.verify,
         (request, response, next) => {
-            model.user.create(request.body)
+            model.User.create(request.body)
             .then((user) => {
                 let msg = {
                     "from": config.email_sender,
@@ -39,7 +39,7 @@ module.exports = (app) => {
             request,
             response,
             next,
-            model.user,
+            model.User,
             { "_id": request.params.id }
         )
     })

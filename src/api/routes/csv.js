@@ -47,7 +47,7 @@ module.exports = (app) => {
                         }
 
                         // Create item from each obj
-                        model.item.create(obj)
+                        model.Item.create(obj)
                     }
 
                     resolve()
@@ -95,7 +95,7 @@ module.exports = (app) => {
                         }
 
                         // Create item from each obj
-                        model.user.create(obj)
+                        model.User.create(obj)
                     }
 
                     resolve()

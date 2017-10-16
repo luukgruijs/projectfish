@@ -8,9 +8,8 @@ const errors = require("../errors")
 module.exports = (app) => {
 
     app.post("/authenticate", (req, res, next) => {
-        const user = model.user.findOne({email: req.body.email, disabled: false}).select("name email password role").exec();
+        const user = model.User.findOne({email: req.body.email, disabled: false}).select("name email password role").exec();
         user.then((user) => {
-
             if (!user) {
                 throw(errors.INVALID_CREDENTIALS())
             }

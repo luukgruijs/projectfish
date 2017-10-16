@@ -3,8 +3,8 @@ const config = require("../config")
 const supertest = require("supertest")
 
 const credentials = {
-    "admin": { "username": "testadmin@projectfish.nl", "password": "test" },
-    "user": { "username": "testuser@projectfish.nl", "password": "test" },
+    "admin": { "email": "testadmin@projectfish.nl", "password": "test" },
+    "user": { "email": "testuser@projectfish.nl", "password": "test" },
 }
 
 const cache = {}
@@ -95,7 +95,6 @@ exports.logonAs = (userRole, forceReauth) => {
     if (!forceReauth && cached_session) {
         return Promise.resolve(enhanceAgent(agent, cached_session.token))
     }
-
     // logon with credentials form userRole
     return agent
         .post("/v1/authenticate")
@@ -104,9 +103,8 @@ exports.logonAs = (userRole, forceReauth) => {
         .send(credentials[userRole])
         .expect(200)
         .then((res) => {
-
             // extract csrf_token from header
-            const token = res.token
+            const token = res.body.token
             if (!token) {
                 throw new Error("no token found in POST /v1/authenticate response")
             }

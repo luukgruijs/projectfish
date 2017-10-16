@@ -39,12 +39,17 @@ class generator {
     }
     static cleanDb() {
         const models = Object.keys(model.modelSchemas)
-            .map((k) => model[k])
+            .map((k) => {
+                return model[k]
+            })
             .filter((x) => x != null) // Some schemas are embedded types and not models
 
         return forEachPromise(models, (model) => {
             return model.remove({})
         })
+    }
+    static objToArr(obj) {
+        return Object.keys(obj).map((key) => obj[key])
     }
 }
 

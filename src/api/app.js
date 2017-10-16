@@ -1,7 +1,5 @@
 const express       = require("express")
 const morgan        = require("morgan")
-const mongoose      = require("mongoose")
-mongoose.Promise    = require("bluebird")
 const bodyParser    = require("body-parser")
 const config        = require("./config")
 const fixtures      = require("./fixtures")
@@ -24,8 +22,7 @@ app.use(bodyParser.json())
 // log all requests to the console
 app.use(morgan("dev"))
 
-// testdata
-// fixtures.startup()
+fixtures.startup()
 
 // mount routes
 const routes = require("./routes")(app, express)
