@@ -16,7 +16,7 @@ module.exports = (app) => {
         (request, response, next) => {
             // only parse files with correct mime type
             if (request.file.mimetype !== "text/csv") {
-                throw(errors.NOT_A_CSV())
+                throw errors.NOT_A_CSV()
             }
 
             return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ module.exports = (app) => {
                     // check if csv header equals to name, category and price
                     if (output[0][0] !== "name" || output[0][1] !== "category" || output[0][2] !== "price") {
                         // header columns not correct
-                        throw(errors.ITEM_CSV_HEADERS())
+                        throw errors.ITEM_CSV_HEADERS()
                     }
 
                     // remove first array as these are the column headers of the csv
@@ -66,7 +66,7 @@ module.exports = (app) => {
 
             // only parse files with correct mime type
             if (request.file.mimetype !== "text/csv") {
-                throw(errors.NOT_A_CSV())
+                throw errors.NOT_A_CSV()
             }
 
             return new Promise((resolve, reject) => {
@@ -78,7 +78,7 @@ module.exports = (app) => {
 
                     // check if csv header equals to name, category and price
                     if (output[0][0] !== "name" || output[0][1] === "email" || output[0][2] === "role") {
-                        throw(errors.USER_CSV_HEADERS())
+                        throw errors.USER_CSV_HEADERS()
                     }
 
 

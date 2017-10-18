@@ -19,8 +19,30 @@ const generators = require("../generators")
     }
 }
 
+const items = {
+   zalm: {
+        _id: generators.objectId(),
+        name: "zalm",
+        price: 1000
+    },
+    kibbeling: {
+        _id: generators.objectId(),
+        name: "kibbeling",
+        price: 1000
+    },
+    paling: {
+        _id: generators.objectId(),
+        name: "paling",
+        price: 1000
+    },
+}
+
 exports.setUp = () => exports.reset()
-    .then(() => models.User.create(generators.objToArr(users)))
+    .then(() => Promise.all([
+        models.User.create(generators.objToArr(users)),
+        models.Item.create(generators.objToArr(items))
+    ]))
 
 exports.reset = generators.cleanDb
 exports.users = users
+exports.items = items

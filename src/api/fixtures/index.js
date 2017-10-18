@@ -6,14 +6,22 @@ const config = require("../config")
 
 exports.startup = function() {
 
-    const user = models.user.findOne().exec()
-    user.then((user) => {
-        if (!user) {
+    const users = models.user.find().exec()
+    users.then((users) => {
+        if (users.length < 2) {
+            let admin = new models.user
+            admin.name = config.name
+            admin.email = "testadmin@projectfish.nl"
+            admin.password = config.password
+            admin.role = "admin"
+            admin.disabled = false
+            admin.save()
+
             let user = new models.user
             user.name = config.name
-            user.email = config.email
+            user.email = "testuser@projectfish.nl"
             user.password = config.password
-            user.role = "admin"
+            user.role = "user"
             user.disabled = false
             user.save()
         }

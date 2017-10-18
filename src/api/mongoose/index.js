@@ -13,7 +13,6 @@ mongoose.Promise = global.Promise
 let delay = 200
 let n_retry = 1
 mongoose.connection.on("error", (err) => {
-    console.log(err)
     if (n_retry <= BACKOFF_MAX_RETRY) {
         console.log(err)(`retrying to connect in ${delay}ms`)
         setTimeout(() => {

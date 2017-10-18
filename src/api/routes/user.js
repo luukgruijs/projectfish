@@ -10,12 +10,14 @@ module.exports = (app) => {
 
     app.get("/users",
         middleware.verify,
+        middleware.guard,
         (request, response, next) => {
 
         const users = model.User.find({disabled: false}).exec()
         .then((users) => {
             response.json(users)
         })
+        .catch(next)
     })
 
     app.post("/users",
@@ -34,13 +36,16 @@ module.exports = (app) => {
             })
     })
 
-    app.post("/users/:id", middleware.verify, (request, response, next) => {
-        rest.update(
-            request,
-            response,
-            next,
-            model.User,
-            { "_id": request.params.id }
-        )
+    app.post("/users/:id",
+        middleware.verify,
+        middleware.guard,
+        (request, response, next) => {
+            rest.update(
+                request,
+                response,
+                next,
+                model.User,
+                { "_id": request.params.id }
+            )
     })
 }

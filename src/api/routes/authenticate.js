@@ -11,7 +11,7 @@ module.exports = (app) => {
         const user = model.User.findOne({email: req.body.email, disabled: false}).select("name email password role").exec();
         user.then((user) => {
             if (!user) {
-                throw(errors.INVALID_CREDENTIALS())
+                throw errors.INVALID_CREDENTIALS()
             }
 
             // first check if password is set
@@ -19,8 +19,10 @@ module.exports = (app) => {
 
             if (valid_password) {
                 let token = jwt.sign({
+                    "_id": user._id,
                     "name": user.name,
                     "email": user.email,
+                    "role": user.role,
                 }, config.secret, {
                     "expiresIn": "12h"
                 })
@@ -33,7 +35,7 @@ module.exports = (app) => {
                     "_id": user._id
                 })
             } else {
-                throw(errors.INVALID_CREDENTIALS())
+                throw errors.INVALID_CREDENTIALS()
             }
         })
         .catch(next)

@@ -98,7 +98,6 @@ let isValid = {
  * @return {String[]} A list of string to populate
  */
 function parsePopulate(value) {
-    console.log(value)
     if (Array.isArray(value)) {
         return value
     }
@@ -306,12 +305,11 @@ exports.transformParameters = function transformParameters(query, operation) {
 }
 
 exports.update = function updateREST(request, response, next, obj, filters) {
-
     // Get the ID from the request parameters
     var id = request.params.id
 
     if (!id) {
-        // next(errors.MISSING_PARAMETERS(["params.id"]))
+        next(errors.MISSING_PARAMETERS(["params.id"]))
         return
     }
 
@@ -323,8 +321,8 @@ exports.update = function updateREST(request, response, next, obj, filters) {
     obj
         .findOne(filters).exec()
         .then((model) => {
-            if (model == null) {
-                // throw errors.RESOURCE_NOT_FOUND({ "id": id, "name": obj.modelName.toLowerCase() })
+            if (model === null) {
+                throw errors.RESOURCE_NOT_FOUND({ "id": id, "name": obj.modelName.toLowerCase() })
             }
 
             Object.keys(request.body).forEach((prop) => {

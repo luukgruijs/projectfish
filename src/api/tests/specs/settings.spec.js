@@ -1,12 +1,12 @@
 "use strict"
 
 require("../index")
-const fixtures = require("./user.fixtures")
+const fixtures = require("./settings.fixtures")
 const generators = require("../generators")
 
 const { insufficient_permissions } = require("../validators")
 
-describe("User routes", () => {
+describe("Settings routes", () => {
     before(() => {
         return fixtures.setUp()
         .then(() => Promise.all([
@@ -17,69 +17,66 @@ describe("User routes", () => {
     beforeEach(fixtures.setUp)
     after(fixtures.reset)
 
-    describe("GET users", () => {
-        it("[success] admin - get all users", () => {
+    describe("GET settings", () => {
+        it("[success] admin - get all settings", () => {
             return testrunner.logonAs("admin").then((agent) => {
                 return agent.request({
                     "method": "get",
                     "status_code": 200,
-                    "url": '/v1/users'
+                    "url": '/v1/settings'
                 })
                 .expect(({ body }) => {
                     expect(body).to.be.a("array")
-                    expect(body).to.have.lengthOf(2)
+                    expect(body).to.be.lengthOf(1)
                 })
             })
         })
 
-        it("[fails] user - get all users", () => {
+        it("[fails] user - get all settings", () => {
             return testrunner.logonAs("user").then((agent) => {
                 return agent.request({
                     "method": "get",
                     "status_code": 403,
-                    "url": '/v1/users'
+                    "url": '/v1/settings'
                 })
                 .expect(({ body }) => insufficient_permissions(body))
             })
         })
     })
 
-    describe("UPDATE user", () => {
+    describe("UPDATE settings", () => {
 
-        it("[success] admin - update single user", () => {
+        const settings = fixtures.settings
+        settings.budget = 12
 
-            const user = fixtures.users.user
-            user.email = 'test@test.nl'
-
+        it("[success] admin - update single setting", () => {
             return testrunner.logonAs("admin").then((agent) => {
                 return agent.request({
                     "method": "post",
                     "status_code": 200,
-                    "body": user,
-                    "url": `/v1/users/${user._id}`
+                    "body": settings,
+                    "url": `/v1/settings/${settings._id}`
                 })
                 .expect(({ body }) => {
                     expect(body).to.be.a("object")
                     expect(body).to.have.property("_id")
-                    expect(body).to.have.property("email").and.equal("test@test.nl")
+                    expect(body).to.have.property("budget").and.equal(12)
                 })
             })
         })
 
-        it("[fails] user - update single user", () => {
-
-            const user = fixtures.users.admin
-            user.email = 'test@test.nl'
-
+        it("[fails] user - update single setting", () => {
             return testrunner.logonAs("user").then((agent) => {
                 return agent.request({
                     "method": "post",
                     "status_code": 403,
-                    "body": user,
-                    "url": `/v1/users/${user._id}`
+                    "body": settings,
+                    "url": `/v1/settings/${settings._id}`
                 })
                 .expect(({ body }) => insufficient_permissions(body))
             })
         })
     })
+
+
 })

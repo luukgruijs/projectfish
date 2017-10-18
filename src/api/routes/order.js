@@ -31,6 +31,10 @@ module.exports = (app) => {
             const order = values[0];
             const user = values[1];
 
+            if (!user) {
+                throw errors.NO_ORDER_USER()
+            }
+
             if (user.disabled) {
                 throw(errors.USER_DISABLED())
             }
@@ -69,5 +73,6 @@ module.exports = (app) => {
                 return response.json(order)
             })
         })
+        .catch(next)
     })
 }

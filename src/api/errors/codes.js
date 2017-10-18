@@ -82,8 +82,26 @@ module.exports = {
     },
     109: {
         http_status: http_status.BAD_REQUEST,
-        message: "You CSV headers are not correct, They should be name, email and role",
+        message: "Your CSV headers are not correct, They should be name, email and role",
         name: "USER_CSV_HEADERS",
+        format: nothing,
+    },
+    110: {
+        http_status: http_status.BAD_REQUEST,
+        message: "Please provide a user with your order",
+        name: "NO_ORDER_USER",
+        format: nothing,
+    },
+    111: {
+        http_status: http_status.UNAUTHORIZED,
+        message: "You're session is expired, please login again",
+        name: "SESSION_EXPIRED",
+        format: nothing,
+    },
+    112: {
+        http_status: http_status.UNAUTHORIZED,
+        message: "Your request contained no api token, please login to obtain one",
+        name: "NO_TOKEN",
         format: nothing,
     }
 }

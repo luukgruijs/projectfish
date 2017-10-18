@@ -6,7 +6,10 @@ const middleware = require("../middleware")
 
 module.exports = (app) => {
 
-    app.get("/lunchorders", middleware.verify, (request, response, next) => {
+    app.get("/lunchorders",
+        middleware.verify,
+        middleware.guard,
+        (request, response, next) => {
         rest.search(
             request,
             response,
@@ -15,7 +18,10 @@ module.exports = (app) => {
         )
     })
 
-    app.get("/lunchorders/:id", middleware.verify, (request, response, next) => {
+    app.get("/lunchorders/:id",
+        middleware.verify,
+        middleware.guard,
+        (request, response, next) => {
         rest.get(
             request,
             response,

@@ -51,6 +51,26 @@ class generator {
     static objToArr(obj) {
         return Object.keys(obj).map((key) => obj[key])
     }
+    static users() {
+        const users = {
+            "admin": {
+                "_id": this.objectId(),
+                "email": "testadmin@projectfish.nl",
+                "name": "luuk gruijs",
+                "role": "admin",
+                "password": "test",
+            },
+            "user": {
+                "_id": this.objectId(),
+                "email": "testuser@projectfish.nl",
+                "name": "luuk gruijs",
+                "role": "user",
+                "password": "test",
+            }
+        }
+
+        return users
+    }
 }
 
 module.exports = generator

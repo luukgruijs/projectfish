@@ -6,7 +6,10 @@ const middleware = require("../middleware")
 
 module.exports = (app) => {
 
-    app.get("/settings", middleware.verify, (request, response, next) => {
+    app.get("/settings",
+        middleware.verify,
+        middleware.guard,
+        (request, response, next) => {
         rest.search(
             request,
             response,
@@ -15,7 +18,10 @@ module.exports = (app) => {
         )
     })
 
-    app.post("/settings/:id", middleware.verify, (request, response, next) => {
+    app.post("/settings/:id",
+        middleware.verify,
+        middleware.guard,
+        (request, response, next) => {
         rest.update(
             request,
             response,

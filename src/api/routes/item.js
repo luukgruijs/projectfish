@@ -48,5 +48,6 @@ module.exports = (app) => {
 
             response.json(item)
         })
+        .catch(next)
     })
 }
