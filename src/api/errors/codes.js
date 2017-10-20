@@ -31,24 +31,7 @@ module.exports = {
         message:
             "The requested resource can't be found",
         name: "RESOURCE_NOT_FOUND",
-
-        /**
-         * @param {Object} opts - The format options
-         * @param {String} opts.name - The name of the missing resource
-         * @param {String} [opts.id] - The id of the missing resource
-         *
-         * @return {Object} The formatted details
-         */
-        format: (opts) => {
-            if (opts.id == null) {
-                return { "resource": opts.name }
-            }
-
-            return {
-                "resource": opts.name,
-                "_id": opts.id.toString()
-            }
-        }
+        format: nothing
     },
     104: {
         http_status: http_status.FORBIDDEN,

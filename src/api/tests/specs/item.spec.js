@@ -4,7 +4,7 @@ require("../index")
 const fixtures = require("./item.fixtures")
 const generators = require("../generators")
 
-describe.only("Item routes", () => {
+describe("Item routes", () => {
     before(() => {
         return fixtures.setUp()
         .then(() => Promise.all([
@@ -92,6 +92,20 @@ describe.only("Item routes", () => {
                     expect(body).to.be.a("object")
                     expect(body).to.have.property("_id")
                     expect(body).to.have.property("deleted").and.equal(true)
+                })
+            })
+        })
+
+        it("[fails] RESOURCE_NOT_FOUND on delete not existing item", () => {
+            return testrunner.logonAs("admin").then((agent) => {
+                return agent.request({
+                    "method": "delete",
+                    "status_code": 404,
+                    "url": `/v1/items/${generators.objectId()}`
+                })
+                .expect(({ body }) => {
+                    expect(body).to.be.a("object")
+                    expect(body).to.have.property("code").and.equal(103)
                 })
             })
         })

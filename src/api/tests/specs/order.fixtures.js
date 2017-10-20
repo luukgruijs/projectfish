@@ -3,20 +3,28 @@ const config = require("../../config")
 const generators = require("../generators")
 
 const users = {
-    "admin": {
-        "_id": generators.objectId(),
-        "email": "testadmin@projectfish.nl",
-        "name": "luuk gruijs",
-        "role": "admin",
-        "password": "test",
+    admin: {
+        _id: generators.objectId(),
+        email: "testadmin@projectfish.nl",
+        name: "luuk gruijs",
+        role: "admin",
+        password: "test",
     },
-    "user": {
-        "_id": generators.objectId(),
-        "email": "testuser@projectfish.nl",
-        "name": "luuk gruijs",
-        "role": "user",
-        "password": "test",
-    }
+    user: {
+        _id: generators.objectId(),
+        email: "testuser@projectfish.nl",
+        name: "luuk gruijs",
+        role: "user",
+        password: "test",
+    },
+    user_disabled: {
+        _id: generators.objectId(),
+        email: "testuserdisabled@projectfish.nl",
+        name: "luuk gruijs",
+        role: "user",
+        password: "test",
+        disabled: true,
+    },
 }
 
 const orders = {

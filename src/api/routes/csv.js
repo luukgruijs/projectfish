@@ -14,22 +14,23 @@ module.exports = (app) => {
         middleware.verify,
         upload.single("file"),
         (request, response, next) => {
+
             // only parse files with correct mime type
             if (request.file.mimetype !== "text/csv") {
                 throw errors.NOT_A_CSV()
             }
 
             return new Promise((resolve, reject) => {
-                csv_parse(request.file.buffer, {"delimiter": ";"}, (err, output) => {
+                return csv_parse(request.file.buffer, {"delimiter": ";"}, (err, output) => {
 
                     if (err) {
-                        reject(err)
+                        return reject(err)
                     }
 
                     // check if csv header equals to name, category and price
                     if (output[0][0] !== "name" || output[0][1] !== "category" || output[0][2] !== "price") {
                         // header columns not correct
-                        throw errors.ITEM_CSV_HEADERS()
+                        return reject(errors.ITEM_CSV_HEADERS())
                     }
 
                     // remove first array as these are the column headers of the csv
@@ -50,13 +51,13 @@ module.exports = (app) => {
                         model.Item.create(obj)
                     }
 
-                    resolve()
+                    return resolve()
                 })
-                .then(() => {
-                    res.status(200)
-                })
-                .catch(next)
-        })
+            })
+            .then(() => {
+                response.send("ok")
+            })
+            .catch(next)
     })
 
     app.post("/csv/users",
@@ -70,17 +71,16 @@ module.exports = (app) => {
             }
 
             return new Promise((resolve, reject) => {
-                csv_parse(request.file.buffer, {"delimiter": ";"}, (err, output) => {
+                return csv_parse(request.file.buffer, {"delimiter": ";"}, (err, output) => {
 
                     if (err) {
-                        reject(err)
+                        return reject(err)
                     }
 
                     // check if csv header equals to name, category and price
-                    if (output[0][0] !== "name" || output[0][1] === "email" || output[0][2] === "role") {
-                        throw errors.USER_CSV_HEADERS()
+                    if (output[0][0] !== "name" || output[0][1] !== "email" || output[0][2] !== "role") {
+                        return reject(errors.USER_CSV_HEADERS())
                     }
-
 
                     // remove first array as these are the column headers of the csv
                     output.splice(0, 1)
@@ -98,13 +98,12 @@ module.exports = (app) => {
                         model.User.create(obj)
                     }
 
-                    resolve()
+                    return resolve()
                 })
-                .then(() => {
-                    res.status(200)
-                })
-                .catch(next)
-
             })
+            .then(() => {
+                response.send("ok")
+            })
+            .catch(next)
         })
 }

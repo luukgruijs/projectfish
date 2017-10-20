@@ -36,6 +36,10 @@ const enhanceAgent = (agent, token) => {
                 test.send(opts.body)
             }
 
+            if (opts.file) {
+                test.attach("file", opts.file)
+            }
+
             if (opts.status_code) {
                 test.expect(opts.status_code)
             }

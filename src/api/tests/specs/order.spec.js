@@ -72,6 +72,60 @@ describe("Order routes", () => {
                 })
             })
         })
+
+        it("[fails] NO_ORDER_USER on not found user", () => {
+
+            const order = {
+                user: generators.objectId(),
+                amount: 1000,
+                items: [
+                    {
+                        name: "kibbeling",
+                        price: 1000
+                    }
+                ],
+            }
+
+            return testrunner.logonAs("admin").then((agent) => {
+                return agent.request({
+                    "method": "post",
+                    "status_code": 400,
+                    "body": order,
+                    "url": `/v1/order`
+                })
+                .expect(({ body }) => {
+                    expect(body).to.be.a("object")
+                    expect(body).to.have.property("code").and.equal(110)
+                })
+            })
+        })
+
+        it("[fails] USER_DISABLED on disabled user", () => {
+
+            const order = {
+                user: fixtures.users.user_disabled._id,
+                amount: 1000,
+                items: [
+                    {
+                        name: "kibbeling",
+                        price: 1000
+                    }
+                ],
+            }
+
+            return testrunner.logonAs("admin").then((agent) => {
+                return agent.request({
+                    "method": "post",
+                    "status_code": 403,
+                    "body": order,
+                    "url": `/v1/order`
+                })
+                .expect(({ body }) => {
+                    expect(body).to.be.a("object")
+                    expect(body).to.have.property("code").and.equal(104)
+                })
+            })
+        })
     })
 
 

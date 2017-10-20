@@ -37,7 +37,7 @@ module.exports = (app) => {
 
     app.delete("/items/:id", middleware.verify, (request, response, next) => {
 
-        const item = model.Item.findById(request.params.id).exec()
+        const item = model.Item.findOne({ "_id": request.params.id }).exec()
         .then((item) => {
             if (!item) {
                 throw(errors.RESOURCE_NOT_FOUND())
