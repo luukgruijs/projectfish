@@ -1,6 +1,4 @@
-
 var path = require('path')
-var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var scssOptions = {
@@ -10,13 +8,6 @@ var scssOptions = {
   data: '@import "src/styles/root";'
 }
 
-exports.assetsPath = function (_path) {
-  var assetsSubDirectory = process.env.NODE_ENV === 'production'
-    ? config.build.assetsSubDirectory
-    : config.dev.assetsSubDirectory
-  return path.posix.join(assetsSubDirectory, _path)
-}
-
 exports.cssLoaders = function (options) {
   options = options || {}
 
@@ -24,7 +15,6 @@ exports.cssLoaders = function (options) {
     loader: 'css-loader',
     options: {
       minimize: process.env.NODE_ENV === 'production',
-      sourceMap: options.sourceMap
     }
   }
 
@@ -34,9 +24,7 @@ exports.cssLoaders = function (options) {
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
-        options: Object.assign({}, loaderOptions, {
-          sourceMap: options.sourceMap
-        })
+        options: Object.assign({}, loaderOptions)
       })
     }
 

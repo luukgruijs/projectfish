@@ -1,22 +1,16 @@
 var path = require('path')
-var utils = require('./utils')
-var config = require('../config')
-var vueLoaderConfig = require('./vue-loader.conf')
+const utils = require("./webpack.utils")
+const config = require("./config")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
-  entry: {
-    app: './src/main.js'
-  },
   output: {
-    path: config.build.assetsRoot,
+    path: path.join(__dirname, "..", "dist"),
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: config.dev.publicPath,
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -31,14 +25,15 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: {
+          loaders: utils.cssLoaders()
+        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
       {
@@ -55,7 +50,6 @@ module.exports = {
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
     ]

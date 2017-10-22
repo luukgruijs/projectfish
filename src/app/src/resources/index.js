@@ -4,7 +4,7 @@ import VueResource from "vue-resource"
 Vue.use(VueResource)
 
 // Set root url for api calls
-Vue.http.options.root = 'http://localhost:8000/v1';
+Vue.http.options.root = 'http://localhost:8002/v1';
 
 // set http interceptors
 Vue.http.interceptors.push(function(request, next) {

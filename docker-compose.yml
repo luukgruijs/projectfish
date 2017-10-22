@@ -29,7 +29,7 @@ services:
     depends_on:
       - mongo
     ports:
-      - "8002"
+      - "8002:8002"
       - "8003:8003"
     environment:
       NODE_PATH: "/src"
