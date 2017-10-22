@@ -86,5 +86,11 @@ module.exports = {
         message: "Your request contained no api token, please login to obtain one",
         name: "NO_TOKEN",
         format: nothing,
+    },
+    113: {
+        http_status: http_status.BAD_REQUEST,
+        message: "Your submission contains data that should be unique",
+        name: "DUPLICATE_KEY",
+        format: nothing,
     }
 }

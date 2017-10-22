@@ -6,6 +6,9 @@ import router from './router'
 // resources
 import { Vue as resources } from './resources'
 
+// store
+import store from './store';
+
 // permissions
 import { Vue as permissions } from "./directives/permissions"
 
@@ -23,6 +26,7 @@ new Vue({
     created: function() {
         window.Vue = this
     },
+    store,
     router,
     render: h => h(app)
 })

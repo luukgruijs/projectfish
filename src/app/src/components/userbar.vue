@@ -23,7 +23,7 @@
                 <div class="header">
                     <h2>Add multiple using csv</h2>
                 </div>
-                <dropzone id="user_dropzone" url="http://localhost:8000/v1/csv/users" v-bind:headers="headers" v-on:vdropzone-success="uploadSuccess">
+                <dropzone id="user_dropzone" url="http://localhost:8002/v1/csv/users" v-bind:headers="headers" v-on:vdropzone-success="uploadSuccess">
                     <input type="hidden" name="token" value="xxx">
                 </dropzone>
             </div>

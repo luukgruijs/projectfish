@@ -9,15 +9,17 @@ if (config.smtp_host) {
     throw "Configuration parameter 'smtp_host' was not specified."
 }
 
-if (config.smtp_port) {
-    transport_config.port = config.smtp_port
-}
+// if (config.smtp_port) {
+//     transport_config.port = config.smtp_port
+// }
 
 var transport = nodemailer.createTransport(transport_config)
 
 module.exports = (message) => {
+    console.log(message)
     return new Promise((resolve, reject) => {
         return transport.sendMail(message, (err, res) => {
+            console.log(res, err)
             return err ? reject(err) : resolve(res)
         })
     })

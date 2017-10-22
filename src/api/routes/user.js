@@ -33,7 +33,11 @@ module.exports = (app) => {
                 }
 
                 return mailer(msg);
-            })
+            }).then(() => {
+                console.log("send mail")
+                response.send("ok")
+            }).catch(next)
+
     })
 
     app.post("/users/:id",
