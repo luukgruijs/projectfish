@@ -3,6 +3,7 @@
 require("../index")
 const fixtures = require("./item.fixtures")
 const generators = require("../generators")
+const { insufficient_permissions } = require("../validators")
 
 describe("Item routes", () => {
     before(() => {
@@ -16,8 +17,22 @@ describe("Item routes", () => {
     after(fixtures.reset)
 
     describe("GET items", () => {
-        it("[success] get all items", () => {
+        it("[success] admin - get all items", () => {
             return testrunner.logonAs("admin").then((agent) => {
+                return agent.request({
+                    "method": "get",
+                    "status_code": 200,
+                    "url": '/v1/items'
+                })
+                .expect(({ body }) => {
+                    expect(body).to.be.a("array")
+                    expect(body).to.have.lengthOf(3)
+                })
+            })
+        })
+
+        it("[success] user - get all items", () => {
+            return testrunner.logonAs("user").then((agent) => {
                 return agent.request({
                     "method": "get",
                     "status_code": 200,
@@ -38,7 +53,7 @@ describe("Item routes", () => {
             price: 1000
         }
 
-        it("[success] create new item", () => {
+        it("[success] admin - create new item", () => {
             return testrunner.logonAs("admin").then((agent) => {
                 return agent.request({
                     "method": "post",
@@ -53,6 +68,17 @@ describe("Item routes", () => {
                 })
             })
         })
+
+        it("[fails] user - create new item", () => {
+            return testrunner.logonAs("user").then((agent) => {
+                return agent.request({
+                    "method": "post",
+                    "status_code": 403,
+                    "body": item,
+                    "url": `/v1/items`
+                }).expect(({ body }) => insufficient_permissions(body))
+            })
+        })
     })
 
     describe("UPDATE item", () => {
@@ -60,7 +86,7 @@ describe("Item routes", () => {
         const item = fixtures.items.kibbeling
         item.name = "witvis"
 
-        it("[success] update existing item", () => {
+        it("[success] admin - update existing item", () => {
             return testrunner.logonAs("admin").then((agent) => {
                 return agent.request({
                     "method": "post",
@@ -75,13 +101,24 @@ describe("Item routes", () => {
                 })
             })
         })
+
+        it("[fails] user - update existing item", () => {
+            return testrunner.logonAs("user").then((agent) => {
+                return agent.request({
+                    "method": "post",
+                    "status_code": 403,
+                    "body": item,
+                    "url": `/v1/items/${item._id}`
+                }).expect(({ body }) => insufficient_permissions(body))
+            })
+        })
     })
 
     describe("DELETE item", () => {
 
         const item = fixtures.items.kibbeling
 
-        it("[success] delete existing item", () => {
+        it("[success] admin - delete existing item", () => {
             return testrunner.logonAs("admin").then((agent) => {
                 return agent.request({
                     "method": "delete",
@@ -93,6 +130,16 @@ describe("Item routes", () => {
                     expect(body).to.have.property("_id")
                     expect(body).to.have.property("deleted").and.equal(true)
                 })
+            })
+        })
+
+        it("[fails] user - delete existing item", () => {
+            return testrunner.logonAs("user").then((agent) => {
+                return agent.request({
+                    "method": "delete",
+                    "status_code": 403,
+                    "url": `/v1/items/${item._id}`
+                }).expect(({ body }) => insufficient_permissions(body))
             })
         })
 

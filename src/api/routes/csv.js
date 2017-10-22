@@ -12,6 +12,7 @@ module.exports = (app) => {
 
     app.post("/csv/items",
         middleware.verify,
+        middleware.guard,
         upload.single("file"),
         (request, response, next) => {
 
@@ -62,6 +63,7 @@ module.exports = (app) => {
 
     app.post("/csv/users",
         middleware.verify,
+        middleware.guard,
         upload.single("file"),
         (request, response, next) => {
 
