@@ -34,21 +34,6 @@
                 }
 
                 this.$store.dispatch('login', user);
-
-                // this.$http.post("authenticate", user).then((response) => {
-                //     if (response.status === 200) {
-                //         window.sessionStorage.setItem("user", JSON.stringify(response.data))
-                //         this.$router.push("/home")
-                //     }
-
-                //     if (response.status === 400) {
-                //         bus.$emit("open__snackbar", response.data.message, 5000)
-
-                //         if (response.data.err === "no_password") {
-                //             this.$router.push("/set-password")
-                //         }
-                //     }
-                // })
             }
         }
     }

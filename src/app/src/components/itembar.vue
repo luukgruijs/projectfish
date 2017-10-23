@@ -1,5 +1,5 @@
  <template>
-    <div class="action__bar" id="itembar">
+    <div class="action__bar" id="itembar" v-bind:class="{ open: open }">
         <div class="action__bar--inner">
             <div class="single__create">
                 <div class="header">
@@ -10,7 +10,7 @@
                     <fieldset>
                         <input type="text" placeholder="Item name " v-model="name" required/>
                         <input type="number" placeholder="Price name " v-model="price" required/>
-                        <input type="submit" value="Save item" class="button action" @click.prevent="createItem()">
+                        <input type="submit" value="Save item" class="button action" @click.prevent="save()">
                     </fieldset>
                 </form>
             </div>
@@ -29,11 +29,12 @@
 <script>
 
     import Dropzone from "vue2-dropzone"
+    import { mapGetters, mapActions } from "vuex"
+    import { types } from "../store/items.js"
 
     export default {
         name: "itembar",
         components: { Dropzone },
-        props: ["item"],
         data() {
             return {
                 edit_mode: false,
@@ -45,6 +46,12 @@
                     "x-access-token": JSON.parse(window.sessionStorage.getItem("user")).token
                 }
             }
+        },
+        computed: {
+            ...mapGetters({
+                open: "edit_mode",
+                item: "selected_item",
+            })
         },
         watch: {
             item(value) {
@@ -67,11 +74,19 @@
             }
         },
         methods: {
+            ...mapActions({
+                create: "createItem",
+                update: "updateItem",
+            }),
             closeActionBar() {
                 this.edit_mode = false;
-                document.querySelector(".action__bar").classList.remove("open")
+                this.name = ""
+                this._id = ""
+                this.price = ""
+
+                this.$store.commit(types.SET_ITEM_EDITMODE, false)
             },
-            createItem() {
+            save() {
                 if (this.name && this.price) {
                     let item = {
                         "name": this.name,
@@ -81,20 +96,11 @@
 
                     // check type and do update/post
                     if (this.type === "create") {
-                        this.$http.post("items", item).then((response) => {
-                            bus.$emit("open__snackbar", `succesfully updated ${item.name}`, 5000)
-                            document.querySelector(".action__bar").classList.remove("open")
-
-                            // reload
-                            this.$emit("reload")
-                        })
+                        this.create(item)
                     } else {
-                        this.$http.post("items/"+this._id, item).then((response) => {
-                            bus.$emit("open__snackbar", `succesfully updated ${item.name}`, 5000)
-                            document.querySelector(".action__bar").classList.remove("open")
-
-                            //reload
-                            this.$emit("reload")
+                        this.update({
+                            item,
+                            id: this._id,
                         })
                     }
                 }
@@ -106,8 +112,8 @@
                 // close action bar
                 this.closeActionBar()
 
-                // emit reload so we fetch the latest items
-                this.$emit("reload")
+                // get items
+                this.$store.dispatch("getItems")
             }
         }
     }

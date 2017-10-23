@@ -1,5 +1,5 @@
 <template>
-    <div class="action__bar">
+    <div class="action__bar" v-bind:class="{ open: open }">
         <div class="action__bar--inner">
             <div class="single__create">
                 <div class="header">
@@ -35,10 +35,18 @@
 
     import Dropzone from "vue2-dropzone"
 
+    import { mapGetters, mapActions } from "vuex";
+    import { types } from "../store/users.js"
+
     export default {
         name: "userbar",
         components: { Dropzone },
-        props: ["user"],
+        computed: {
+            ...mapGetters({
+                open: "user_edit_mode",
+                user: "selected_user",
+            })
+        },
         data() {
             return {
                 edit_mode: false,
@@ -54,7 +62,6 @@
         watch: {
             user(value) {
                 if (value) {
-                    console.log(value);
                     this.name = value.name
                     this.email = value.email
                     this.role = value.role
@@ -72,37 +79,29 @@
             }
         },
         methods: {
+            ...mapActions({
+                create: "createUser",
+                update: "updateUser"
+            }),
             closeActionBar() {
-                this.edit_mode = false;
-                document.querySelector(".action__bar").classList.remove("open")
+                this.name = ""
+                this.email = ""
+                this.$store.commit(types.SET_USER_EDITMODE, false)
             },
             saveUser() {
                 if (this.name && this.email) {
-
-
                     let user = {
                         "name": this.name,
                         "email": this.email,
                     }
 
                     if (this.edit_mode) {
-                        user._id = this._id
-
-                        this.$http.post(`users/${user._id}`, user).then((response) => {
-                            bus.$emit("open__snackbar", `succesfully updated ${user.name}`, 5000)
-                            document.querySelector(".action__bar").classList.remove("open")
-
-                            // reload
-                            this.$emit("reload")
+                        this.update({
+                            user,
+                            id: this._id
                         })
                     } else {
-                        this.$http.post("users", user).then((response) => {
-                            bus.$emit("open__snackbar", `succesfully created ${user.name}`, 5000)
-                            document.querySelector(".action__bar").classList.remove("open")
-
-                            // reload
-                            this.$emit("reload")
-                        })
+                        this.create(user)
                     }
                 }
             },
@@ -114,7 +113,7 @@
                 this.closeActionBar()
 
                 // emit reload so we fetch the latest items
-                this.$emit("reload")
+                this.$store.dispatch("getUsers")
             }
         }
     }

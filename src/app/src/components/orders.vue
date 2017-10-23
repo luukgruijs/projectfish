@@ -13,31 +13,23 @@
 <script>
     import datatable from "./datatable.vue"
     import sidenav from "./sidenav.vue"
+    import { mapGetters, mapActions } from "vuex"
 
     export default {
         name: "orders",
         components: { sidenav, datatable },
-        data() {
-            return {
-                orders: [],
-            }
+        computed: {
+            ...mapGetters([
+                "orders"
+            ])
         },
         created() {
-            this.$http.get("lunchorders?_populate=orders").then((orders) => {
-
-                this.orders = orders.body.map((order) => {
-                    return {
-                        "amount": order.orders.reduce((amount, order) => {
-                            return amount + order.amount
-                        }, 0),
-                        "created_at": order.created_at,
-                        "orders": order.orders.length,
-                        "_id": order._id
-                    }
-                })
-            })
+            this.get()
         },
         methods: {
+            ...mapActions({
+                get: "getOrders"
+            }),
             forward(item) {
                 this.$router.push({path: `orders/${item._id}`})
             }

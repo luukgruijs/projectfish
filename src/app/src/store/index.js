@@ -3,6 +3,9 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
 import login from './login';
+import lunchorders from './lunchorders';
+import items from './items';
+import users from './users';
 
 Vue.use(Vuex);
 
@@ -10,7 +13,10 @@ const debug = process.env.NODE_ENV !== 'production';
 
 export default new Vuex.Store({
   modules: {
-    login
+    login,
+    lunchorders,
+    items,
+    users
   },
   strict: debug,
   plugins: debug ? [createLogger()] : [],

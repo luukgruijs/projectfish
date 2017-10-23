@@ -1,5 +1,5 @@
 <template>
-    <header class="navbar" v-if="currentUser">
+    <header class="navbar" v-if="current_user.token">
         <div class="container">
             <ul>
                 <li>
@@ -23,16 +23,13 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
-        data() {
-            return {
-                current_user: '',
-            }
-        },
         computed: {
-            currentUser: () => {
-                return JSON.parse(window.sessionStorage.getItem('user')) ? true : false
-            },
+            ...mapGetters([
+              'current_user'
+            ])
         },
         methods: {
             logout() {

@@ -9,7 +9,7 @@
 
             <datatable :data="users" :fields="['name', 'email', 'role']" @rowClicked="onEdit($event)" @deleteClicked="confirmDelete($event)" :deleteable="true"></datatable>
         </div>
-        <userbar id="userbar" :user="active_user" @reload="fetch()"></userbar>
+        <userbar id="userbar"></userbar>
         <confirm v-if="show_confirm" :item="active_user" :message="confirm_message" @confirm="onDelete($event)" @cancel="closeConfirm()"></confirm>
     </div>
 </template>
@@ -20,35 +20,40 @@
     import userbar from "./userbar.vue"
     import confirm from "./confirm.vue"
 
+    import { mapGetters, mapActions } from "vuex"
+    import { types } from "../store/users.js"
+
     export default {
         name: "users",
         components: { sidenav, datatable, userbar, confirm },
+        computed: {
+            ...mapGetters([
+                "users"
+            ])
+        },
 
         data() {
             return {
                 active_user: "",
-                users: [],
                 show_confirm: false,
                 confirm_message: "",
             }
         },
 
         created() {
-            this.fetch()
+            this.get()
         },
 
         methods: {
-            fetch() {
-                this.$http.get("users").then((users) => {
-                    this.users = users.body
-                })
-            },
+            ...mapActions({
+                get: "getUsers",
+                delete: "deleteUser"
+            }),
             openActionBar() {
-                document.getElementById("userbar").classList.add("open")
+                this.$store.commit(types.SET_USER_EDITMODE, true)
             },
             onEdit(event) {
-                this.active_user = event
-                document.getElementById("userbar").classList.add("open")
+                this.$store.commit(types.SET_SELECTED_USER, event)
             },
             confirmDelete(event) {
                 this.active_user = event
@@ -59,14 +64,8 @@
                 this.show_confirm = false
             },
             onDelete(confirmed) {
-                var self = this
                 if (confirmed) {
-                    let user = this.active_user;
-                    user.disabled = true;
-
-                    this.$http.post(`users/${user._id}`, user).then((response) => {
-                        self.fetch()
-                    })
+                    this.delete(event._id);
                 }
             }
         }

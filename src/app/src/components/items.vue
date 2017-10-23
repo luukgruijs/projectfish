@@ -9,7 +9,7 @@
 
             <datatable :data="items" :fields="['name', 'category', 'price']" @rowClicked="onEdit($event)" @deleteClicked="onDelete($event)" :deleteable="true"></datatable>
         </div>
-        <itembar id="itembar" :item="active_item" @reload="fetch()"></itembar>
+        <itembar id="itembar"></itembar>
     </div>
 </template>
 
@@ -18,42 +18,36 @@
     import datatable from "./datatable.vue"
     import itembar from "./itembar.vue"
 
+    import { mapGetters, mapActions } from "vuex"
+    import { types } from "../store/items.js"
+
     export default {
         name: "items",
         components: { sidenav, datatable, itembar },
 
-        data() {
-            return {
-                items: [],
-                active_item: {}
-            }
+        computed: {
+            ...mapGetters([
+                "items"
+            ])
         },
 
         created() {
-            this.fetch()
+            this.get()
         },
 
         methods: {
-            fetch() {
-                this.$http.get("items").then((items) => {
-                    this.items = items.body
-                })
-            },
+            ...mapActions({
+                get: "getItems",
+                delete: "deleteItem"
+            }),
             openActionBar() {
-                this.active_item = {};
-                document.getElementById("itembar").classList.add("open")
+                this.$store.commit(types.SET_ITEM_EDITMODE, true)
             },
             onEdit(event) {
-                this.active_item = event
-                document.getElementById("itembar").classList.add("open")
+                this.$store.commit(types.SET_SELECTED_ITEM, event)
             },
             onDelete(event) {
-                let self = this
-                let item = event
-
-                this.$http.post(`items/${event._id}`).then((response) => {
-                    self.fetch()
-                })
+                this.delete(event._id);
             }
         }
     }

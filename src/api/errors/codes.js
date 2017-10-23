@@ -92,5 +92,29 @@ module.exports = {
         message: "Your submission contains data that should be unique",
         name: "DUPLICATE_KEY",
         format: nothing,
+    },
+    114: {
+        http_status: http_status.BAD_REQUEST,
+        message:
+          'The submitted or requested resource is invalid. If you submitted a resource, please ' +
+          'check for invalid fields, which will be listed in the details property. If you ' +
+          'requested a resource, ensure the latter is valid, as well as its sub-resources. ',
+        name: 'INVALID_RESOURCE',
+
+        /**
+         * @param {Object} opts - The format options
+         * @param {String} opts.name - The name of the invalid resource
+         * @param {String[]} [opts.fields] - A list of errored fields
+         * @return {Object} The formatted details
+         */
+        format: (opts) => {
+          if (!Array.isArray(opts.fields)) {
+            return { resource: opts.name };
+          }
+          return {
+            resource: opts.name,
+            invalid_fields: opts.fields,
+          };
+        },
     }
 }

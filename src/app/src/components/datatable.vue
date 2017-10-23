@@ -6,7 +6,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in rows">
+            <tr v-for="item in data">
                 <td v-for="(field, index) in fields" @click.prevent="rowClicked(item)">
                     <span>{{ item[field] }}</span>
                 </td>
@@ -30,26 +30,26 @@
                 rows: []
             }
         },
-        watch: {
-            data(rows) {
-                var self = this
-                self.rows = rows.map((row) => {
-                    if (row.created_at) {
-                        row.created_at = self.$options.filters.date(row.created_at)
-                    }
+        // watch: {
+        //     data(rows) {
+        //         var self = this
+        //         self.rows = rows.map((row) => {
+        //             if (row.created_at) {
+        //                 row.created_at = self.$options.filters.date(row.created_at)
+        //             }
 
-                    if (row.amount) {
-                        row.amount = self.$options.filters.currency(row.amount)
-                    }
+        //             if (row.amount) {
+        //                 row.amount = self.$options.filters.currency(row.amount)
+        //             }
 
-                    if (row.price) {
-                        row.price = self.$options.filters.currency(row.price)
-                    }
+        //             if (row.price) {
+        //                 row.price = self.$options.filters.currency(row.price)
+        //             }
 
-                    return row
-                })
-            }
-        },
+        //             return row
+        //         })
+        //     }
+        // },
         methods: {
             rowClicked(item) {
                 this.$emit("rowClicked", item)
