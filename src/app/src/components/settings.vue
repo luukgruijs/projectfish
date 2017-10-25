@@ -11,42 +11,42 @@
                     <tbody>
                         <tr>
                             <th>Budget per person</th>
-                            <td>{{ settings.budget | currency }}</td>
+                            <td>{{ setting.budget | currency }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <settingsbar id="settingsbar" :item="settings" @reload="fetch()"></settingsbar>
+        <settingsbar id="settingsbar"></settingsbar>
     </div>
 </template>
 
 <script>
     import sidenav from "./sidenav.vue"
     import settingsbar from "./settingsbar.vue"
+    import { types } from "../store/settings.js"
+    import { mapGetters, mapActions } from "vuex";
 
     export default {
         name: "settings",
         components: { sidenav, settingsbar },
 
-        data() {
-            return {
-                settings: {},
-            }
+        computed: {
+            ...mapGetters([
+                "setting"
+            ]),
         },
 
         created() {
-            this.fetch();
+            this.get();
         },
 
         methods: {
-            fetch() {
-                this.$http.get("settings").then((settings) => {
-                    this.settings = settings.body[0]
-                })
-            },
+            ...mapActions({
+                get: "getSetting"
+            }),
             openActionBar() {
-                document.getElementById("settingsbar").classList.add("open")
+                this.$store.commit(types.SET_SETTING_EDITMODE, true)
             },
         }
 

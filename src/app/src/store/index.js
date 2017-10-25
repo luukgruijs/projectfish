@@ -6,6 +6,7 @@ import login from './login';
 import lunchorders from './lunchorders';
 import items from './items';
 import users from './users';
+import settings from './settings';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
     login,
     lunchorders,
     items,
-    users
+    users,
+    settings,
   },
   strict: debug,
   plugins: debug ? [createLogger()] : [],

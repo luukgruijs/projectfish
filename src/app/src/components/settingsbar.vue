@@ -1,5 +1,5 @@
  <template>
-    <div class="action__bar" id="settingsbar">
+    <div class="action__bar" id="settingsbar" v-bind:class="{ open: open }">
         <div class="action__bar--inner">
             <div class="single__create">
                 <div class="header">
@@ -21,9 +21,18 @@
 
 <script>
 
+    import { mapGetters, mapActions } from "vuex";
+    import { types } from "../store/settings.js"
+
     export default {
         name: "settingsbar",
-        props: ["item"],
+
+        computed: {
+            ...mapGetters({
+                open: "setting_edit_mode",
+                setting: "setting",
+            })
+        },
         data() {
             return {
                 budget: 0,
@@ -31,7 +40,8 @@
             }
         },
         watch: {
-            item(value) {
+            setting(value) {
+                console.log(value)
                 if (value) {
                     this.budget = this.$options.filters.currency(value.budget)
                     this._id = value._id
@@ -39,22 +49,21 @@
             },
         },
         methods: {
+            ...mapActions({
+                update: "updateSetting",
+            }),
             closeActionBar() {
-                this.edit_mode = false;
-                document.querySelector(".action__bar").classList.remove("open")
+                this.$store.commit(types.SET_SETTING_EDITMODE, false)
             },
             editSettings() {
 
-                const settings = {
+                const setting = {
                     budget: this.budget * Math.pow(10, 2)
                 }
 
-                this.$http.post(`settings/${this._id}`, settings).then((response) => {
-                    bus.$emit("open__snackbar", `succesfully updated settings`, 5000)
-                    document.querySelector(".action__bar").classList.remove("open")
-
-                    //reload
-                    this.$emit("reload")
+                this.update({
+                    id: this._id,
+                    setting
                 })
             },
         }
