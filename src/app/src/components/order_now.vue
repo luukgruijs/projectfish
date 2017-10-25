@@ -20,7 +20,7 @@
                         <p>{{item.name}}</p><p>{{item.price | currency}}</p>
                     </div>
                     <div class="basket__total">
-                        <b>Total: </b> <span>{{basket_total | currency}} of {{budget | currency}}</span>
+                        <b>Total: </b> <span>{{basket_total | currency}} of {{setting.budget | currency}}</span>
                     </div>
                     <div class="submit__order" v-if="basket.length > 0">
                         <a href="#" @click.prevent="submitOrder()" class="button action">Send order</a>
@@ -33,13 +33,13 @@
 
 <script>
 
+    import { mapGetters, mapActions } from "vuex"
+    import { types } from "../store/ordernow.js"
+
     export default {
         name: "order_now",
         data() {
             return {
-                "basket": [],
-                "basket_total": 0,
-                "items": [],
                 "search": "",
                 "budget": 0,
             }
@@ -50,6 +50,12 @@
         },
 
         computed: {
+            ...mapGetters([
+                "basket",
+                "basket_total",
+                "items",
+                "setting"
+            ]),
             filtered_items() {
                 return this.items.filter((item) => {
                     return item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
@@ -57,82 +63,57 @@
             }
         },
 
-        methods: {
-            fetch() {
-                this.$http.get("items").then((items) => {
-                    this.items = items.data
-                })
+        created() {
+            this.getItems();
+            this.getSetting();
+        },
 
-                this.$http.get("settings").then((settings) => {
-                    this.budget = settings.body[0].budget
-                })
+        methods: {
+            ...mapActions({
+                getItems: "getItems",
+                getSetting: "getSetting",
+                add: "addTobasket",
+                remove: "removeFromBasket",
+                order: "sendOrder"
+            }),
+            fetch() {
+
             },
             addToBasket(item, event) {
-
                 // item is allready active
                 if (event.target.parentElement.classList.contains("active")) {
                     event.target.parentElement.classList.remove("active")
-
-                    // remove item from basket
-                    for (var i = 0; i < this.basket.length; i++) {
-                        if (this.basket[i]._id === item._id) {
-                            this.basket.splice(i, 1)
-                            break
-                        }
-                    }
+                    this.remove(item)
                 } else {
-
-                    // add item to basket
-                    this.basket.push(item)
                     event.target.parentElement.classList.add("active")
-                }
-
-                this.calculateOrderTotal()
-            },
-            calculateOrderTotal() {
-                // first reset
-                this.basket_total = 0
-
-                // then calculate new basket price
-                for (var i = 0; i < this.basket.length; i++) {
-                    this.basket_total += this.basket[i].price;
+                    this.add(item)
                 }
             },
             submitOrder() {
                 var self = this
 
-                if (this.basket_total <= this.budget) {
+                if (this.basket_total <= this.setting.budget) {
 
                     let order = {
                         "amount": this.basket.reduce((amount, item) => {
                             return amount + item.price
                         }, 0),
                         "items": this.basket.reduce((basket, item) => {
-                            let obj = {}
-
-                            obj.item = item
+                            let obj = item;
                             obj.quantity = 1
 
                             basket.push(obj)
                             return basket
-
                         }, []),
                         "user": JSON.parse(window.sessionStorage.getItem("user"))._id
                     }
 
-                    // send actual order
-                    this.$http.post("order", order).then((order) => {
-                        self.basket = []
-                        self.basket_total = 0
+                    this.order(order)
 
-                        // remove active class
-                        let items = document.querySelectorAll(".item.active")
-                        items.forEach((item) => {
-                            item.classList.remove("active")
-                        })
-
-                        // show succes message
-                        bus.$emit("open__snackbar", "Succesfully submitted order", 5000)
+                    // remove active class
+                    let items = document.querySelectorAll(".item.active")
+                    items.forEach((item) => {
+                        item.classList.remove("active")
                     })
                 } else {
                     bus.$emit("open__snackbar", "Your order exceeds the maximum budget", 5000)

@@ -41,7 +41,6 @@
         },
         watch: {
             setting(value) {
-                console.log(value)
                 if (value) {
                     this.budget = this.$options.filters.currency(value.budget)
                     this._id = value._id
