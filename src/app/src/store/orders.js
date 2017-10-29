@@ -14,7 +14,7 @@ export default {
     },
     getters: {
         orders: state => state.orders,
-        selected_order: state => state.selected_order
+        selected_order: state => state.selected_order,
     },
     mutations: {
         [types.SET_ORDERS](state, payload) {
@@ -25,7 +25,7 @@ export default {
         },
     },
     actions: {
-        getOrders({ commit, state }) {
+        getOrders({ dispatch, commit }) {
             Vue.http.get('lunchorders?_populate=orders')
             .then((response) => {
                 const orders = response.body.map((order) => {
@@ -40,6 +40,12 @@ export default {
                 })
                 commit(types.SET_ORDERS, orders);
             })
-        }
+        },
+        getOrder({ dispatch, commit }, orderId) {
+            Vue.http.get(`lunchorders/${orderId}?_populate=orders`)
+            .then((response) => {
+                commit(types.SET_SELECTED_ORDER, response.body);
+            })
+        },
     }
 }

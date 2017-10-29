@@ -57,7 +57,7 @@
             item(value) {
                 if (value && value.name && value.price) {
                     this.name = value.name
-                    this.price = value.price
+                    this.price = this.$options.filters.currency(value.price)
                     this.type = "edit"
                     this._id = value._id
                     this.edit_mode = true

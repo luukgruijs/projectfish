@@ -10,11 +10,11 @@
             </div>
             <div class="row">
                 <h2>Who ordered what</h2>
-                <div class="orders" v-for="order in order.orders">
-                    <div class="order">
-                        <span>{{order.user.name}}</span>
+                <div class="orders">
+                    <div class="order" v-for="order in order.orders">
+                        <span>{{order.user}}</span>
                         <span v-for="item in order.items">
-                            {{item.item.name + " "}}
+                            {{item.name + " "}}
                         </span>
                     </div>
                 </div>
@@ -28,33 +28,43 @@
     import sidenav from "./sidenav.vue"
     import Chart from "chart.js"
 
+    import { mapGetters, mapActions } from "vuex";
+
     export default {
         name: "order",
         components: { sidenav },
+        computed: {
+            ...mapGetters({
+                order: "selected_order",
+                users: "users"
+            }),
+        },
         data() {
             return {
-                "order": {},
-                "count_items": {},
-                "users": [],
+                count_items: 0,
             }
         },
         created() {
-            var self = this
-            let orders = this.$http.get(`lunchorders/${this.$route.params.id}?_populate=orders`)
-            let users = this.$http.get("users")
+            this.get(this.$route.params.id);
 
-            Promise.all([orders, users]).then((data) => {
+            this.$store.subscribe((mutation, state) => {
+                if (mutation.type === "SET_SELECTED_ORDER") {
+                    this.countItems()
+                }
+            })
+        },
 
-                self.order = data[0].body
-                self.users = data[1].body
-
-                // get count of unique item names
-                this.count_items = self.order.orders.reduce((items, order) => {
+        methods: {
+            ...mapActions({
+                get: "getOrder"
+            }),
+            countItems() {
+                const items = this.order.orders.reduce((items, order) => {
                     order.items.map((item) => {
-                        if (items[item.item.name]) {
-                            items[item.item.name] += 1
+                        if (items[item.name]) {
+                            items[item.name] += 1
                         } else {
-                            items[item.item.name] = 1;
+                            items[item.name] = 1;
                         }
                         return item
                     })
@@ -62,13 +72,10 @@
                     return items
                 }, {})
 
-                // generate graph and table
-                this.generateGraph()
-                this.generateTable()
-            })
-        },
+                this.count_items = items;
 
-        methods: {
+                this.generateGraph()
+            },
             generateGraph() {
                 // select canvas element
                 let ctx = document.getElementById("countchart")
@@ -106,21 +113,6 @@
                     "options": options
                 })
             },
-            generateTable() {
-                let order_data = this.order.orders.map((order) => {
-                    let user = this.users.filter((user) => {
-                        if (order.user === user._id) {
-                            return true
-                        }
-                    })
-
-                    order.user = user[0]
-
-                    return order
-                })
-
-                this.order.orders = order_data
-            }
         }
     }
 </script>
@@ -133,7 +125,7 @@
     }
 
     .orders {
-        margin-top: 20px;
+        margin: 20px 0;
         border: 1px solid darken($gray, 5%);
         .order {
             display: flex;

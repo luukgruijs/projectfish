@@ -8,12 +8,15 @@
         <tbody>
             <tr v-for="item in data">
                 <td v-for="(field, index) in fields" @click.prevent="rowClicked(item)">
-                    <span>{{ item[field] }}</span>
+                    <span v-if="field === 'created_at'">{{ item[field] | date }}</span>
+                    <span v-else-if="field === 'amount'">{{ item[field] | currency }}</span>
+                    <span v-else-if="field === 'price'">{{ item[field] | currency }}</span>
+                    <span v-else>{{ item[field] }}</span>
                 </td>
                 <span v-if="deleteable" class="delete"><i class="material-icons close" @click.prevent="deleteClicked(item)">close</i></span>
             </tr>
-            <tr v-if="rows.length === 0">
-                <td colspan="rows.length">Nothing to show yet</td>
+            <tr v-if="data.length === 0">
+                <td colspan="data.length">Nothing to show yet</td>
             </tr>
         </tbody>
     </table>
@@ -25,31 +28,6 @@
     export default {
         name: "datatable",
         props: ["data", "fields", "deleteable"],
-        data() {
-            return {
-                rows: []
-            }
-        },
-        // watch: {
-        //     data(rows) {
-        //         var self = this
-        //         self.rows = rows.map((row) => {
-        //             if (row.created_at) {
-        //                 row.created_at = self.$options.filters.date(row.created_at)
-        //             }
-
-        //             if (row.amount) {
-        //                 row.amount = self.$options.filters.currency(row.amount)
-        //             }
-
-        //             if (row.price) {
-        //                 row.price = self.$options.filters.currency(row.price)
-        //             }
-
-        //             return row
-        //         })
-        //     }
-        // },
         methods: {
             rowClicked(item) {
                 this.$emit("rowClicked", item)
