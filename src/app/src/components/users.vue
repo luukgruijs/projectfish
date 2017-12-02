@@ -65,7 +65,7 @@
             },
             onDelete(confirmed) {
                 if (confirmed) {
-                    this.delete(event._id);
+                    this.delete(this.active_user._id);
                 }
             }
         }

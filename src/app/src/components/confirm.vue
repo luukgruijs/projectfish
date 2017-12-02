@@ -19,7 +19,7 @@
 
     export default {
         name: "confirm",
-        props: ["message", "data"],
+        props: ["message"],
         data() {
             return {}
         },

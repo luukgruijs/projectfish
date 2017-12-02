@@ -55,6 +55,7 @@
         },
         watch: {
             item(value) {
+                console.log(value);
                 if (value && value.name && value.price) {
                     this.name = value.name
                     this.price = this.$options.filters.currency(value.price)

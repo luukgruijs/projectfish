@@ -49,22 +49,25 @@
                 const users = this.$http.get("users")
 
                 // fetch all the orders
-                Promise.all([orders, users]).then((data) => {
+                Promise.all([orders, users])
+                .then((data) => {
 
                     self.orders = data[0].body
                     self.users = data[1].body
 
                     self.drawOrderChart()
                     self.drawItemsChart()
-                    self.generateOrderList()
+                    self.generateOrderList(self.orders)
+                })
+                .catch((err) => {
+                    console.log(err);
                 })
             },
-            generateOrderList() {
+            generateOrderList(orders) {
                 var self = this
-                // let latest_orders = this.orders.slice(-15)
 
                 // generate list with latest orders
-                this.latest_orders = self.orders.map((order) => {
+                this.latest_orders = orders.map((order) => {
 
                     // find user that corresponts to order.user._id
                     let user = self.users.filter((user) => {
@@ -73,12 +76,12 @@
                         }
                     })
 
-                    // assing user to object
+                    // assign user to object
                     order.user = user[0]
 
                     // get array of item names
                     order.items = order.items.reduce((item_string, item, index) => {
-                        item_string += item.item.name
+                        item_string += item.name
                         if (index + 1 !== order.items.length) {
                             item_string += ","
                         }
@@ -153,10 +156,10 @@
                 // get count of unique item names
                 let count_items = self.orders.reduce((items, order) => {
                     order.items.map((item) => {
-                        if (items[item.item.name]) {
-                            items[item.item.name] += 1
+                        if (items[item.name]) {
+                            items[item.name] += 1
                         } else {
-                            items[item.item.name] = 1;
+                            items[item.name] = 1;
                         }
                         return item
                     })
@@ -227,8 +230,6 @@
             }
             .popular__items {
                 margin-right: auto;
-                canvas {
-                }
             }
             .latest__orders {
                 margin-left: auto;

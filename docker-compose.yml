@@ -31,6 +31,7 @@ services:
     ports:
       - "8002:8002"
       - "8003:8003"
+      - "587:587"
     environment:
       NODE_PATH: "/src"
 

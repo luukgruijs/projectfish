@@ -76,9 +76,6 @@
                 remove: "removeFromBasket",
                 order: "sendOrder"
             }),
-            fetch() {
-
-            },
             addToBasket(item, event) {
                 // item is allready active
                 if (event.target.parentElement.classList.contains("active")) {

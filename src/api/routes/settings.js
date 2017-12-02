@@ -8,7 +8,6 @@ module.exports = (app) => {
 
     app.get("/settings",
         middleware.verify,
-        middleware.guard,
         (request, response, next) => {
         rest.search(
             request,

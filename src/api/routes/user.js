@@ -10,7 +10,6 @@ module.exports = (app) => {
 
     app.get("/users",
         middleware.verify,
-        middleware.guard,
         (request, response, next) => {
 
         const users = model.User.find({disabled: false}).exec()
@@ -34,7 +33,6 @@ module.exports = (app) => {
 
                 return mailer(msg);
             }).then(() => {
-                console.log("send mail")
                 response.send("ok")
             }).catch(next)
 

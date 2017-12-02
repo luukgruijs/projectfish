@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/store/ordernow.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/store</a> ordernow.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/22</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Vue from "vue";
+import router from "../router"
+&nbsp;
+&nbsp;
+export const types = {
+    ADD_TO_BASKET: "ADD_TO_BASKET",
+    CALCULATE_BASKET_TOTAL: "CALCULATE_BASKET_TOTAL",
+    REMOVE_FROM_BASKET: "REMOVE_FROM_BASKET",
+    CLEAR_BASKET: "CLEAR_BASKET"
+}
+&nbsp;
+export default {
+    state: {
+        basket: [],
+        basket_total: 0,
+    },
+    getters: {
+        basket: <span class="fstat-no" title="function not covered" >state =&gt; <span class="cstat-no" title="statement not covered" ></span>state.</span>basket,
+        basket_total: <span class="fstat-no" title="function not covered" >state =&gt; <span class="cstat-no" title="statement not covered" ></span>state.</span>basket_total
+    },
+    mutations: {
+        [types.ADD_TO_BASKET](state, payload) {
+            const <span class="cstat-no" title="statement not covered" >item = </span>payload
+            const <span class="cstat-no" title="statement not covered" >basket = </span>state.basket
+<span class="cstat-no" title="statement not covered" >            basket.push(item)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            state.basket = basket;</span>
+        },
+        [types.REMOVE_FROM_BASKET](state, payload) {
+<span class="cstat-no" title="statement not covered" >            state.basket = state.basket.filter((<span class="fstat-no" title="function not covered" >item) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >                return item.name !== payload.name</span>
+            })
+        },
+        [types.CALCULATE_BASKET_TOTAL](state) {
+            let <span class="cstat-no" title="statement not covered" >total = </span>0
+            let <span class="cstat-no" title="statement not covered" >basket = </span>state.basket
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            for (let item of state.basket) {</span>
+<span class="cstat-no" title="statement not covered" >                total += item.price</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            state.basket_total = total;</span>
+        },
+        [types.CLEAR_BASKET](state) {
+<span class="cstat-no" title="statement not covered" >            state.basket = []</span>
+<span class="cstat-no" title="statement not covered" >            state.basket_total = 0</span>
+        }
+    },
+    actions: {
+        sendOrder({ dispatch, commit }, order) {
+<span class="cstat-no" title="statement not covered" >            Vue.http.post('order', order)</span>
+            .then((<span class="fstat-no" title="function not covered" >response) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                commit(types.CLEAR_BASKET)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                bus.$emit("open__snackbar", "Succesfully submitted order", 5000)</span>
+            })
+        },
+        addTobasket({ dispatch, commit }, item) {
+<span class="cstat-no" title="statement not covered" >            commit(types.ADD_TO_BASKET, item)</span>
+<span class="cstat-no" title="statement not covered" >            commit(types.CALCULATE_BASKET_TOTAL)</span>
+        },
+        removeFromBasket({ dispatch, commit }, item) {
+<span class="cstat-no" title="statement not covered" >            commit(types.REMOVE_FROM_BASKET, item)</span>
+<span class="cstat-no" title="statement not covered" >            commit(types.CALCULATE_BASKET_TOTAL)</span>
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 29 2017 22:28:55 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
