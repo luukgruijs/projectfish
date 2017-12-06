@@ -57,7 +57,7 @@
 
                     self.drawOrderChart()
                     self.drawItemsChart()
-                    self.generateOrderList(self.orders)
+                    // self.generateOrderList(self.orders)
                 })
                 .catch((err) => {
                     console.log(err);

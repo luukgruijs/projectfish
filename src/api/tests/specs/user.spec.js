@@ -82,4 +82,44 @@ describe("User routes", () => {
             })
         })
     })
+    
+    describe("POST user", () => {
+
+        const user = {
+            "email": "test@test.nl",
+            "name": "luuk gruijs",
+            "role": "user",
+        }
+
+        it("[success] admin - create single user", () => {
+
+            return testrunner.logonAs("admin").then((agent) => {
+                return agent.request({
+                    "method": "post",
+                    "status_code": 200,
+                    "body": user,
+                    "url": `/v1/users`
+                })
+                .expect(({ body }) => {
+                    expect(body).to.be.a("object")
+                })
+            })
+        })
+
+        it("[fails] user - create single user", () => {
+
+            const user = fixtures.users.admin
+            user.email = 'test@test.nl'
+
+            return testrunner.logonAs("user").then((agent) => {
+                return agent.request({
+                    "method": "post",
+                    "status_code": 403,
+                    "body": user,
+                    "url": `/v1/users`
+                })
+                .expect(({ body }) => insufficient_permissions(body))
+            })
+        })
+    })
 })

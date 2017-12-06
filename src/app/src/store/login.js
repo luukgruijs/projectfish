@@ -34,6 +34,12 @@ export default {
                 window.sessionStorage.setItem("user", JSON.stringify(response.data))
                 router.push("/home")
             })
+        },
+        setPassword({commit, state}, new_password) {
+            Vue.http.post(`users/${new_password.user}/set_password`, new_password).then((response) => {
+                bus.$emit("open__snackbar", response.body.message, 5000)
+                router.push("/home")
+            })
         }
     }
 }

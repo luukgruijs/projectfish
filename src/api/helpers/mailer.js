@@ -1,25 +1,20 @@
 const nodemailer = require("nodemailer")
 const config = require("../config")
 
-const transport_config = {}
-
-if (config.smtp_host) {
-    transport_config.host = config.smtp_host
-} else {
-    throw "Configuration parameter 'smtp_host' was not specified."
+const transport_config = {
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+        user: config.email_user,
+        pass: config.email_password
+    }
 }
 
-// if (config.smtp_port) {
-//     transport_config.port = config.smtp_port
-// }
-
-var transport = nodemailer.createTransport(transport_config)
+const transport = nodemailer.createTransport(transport_config);
 
 module.exports = (message) => {
-    console.log(message)
     return new Promise((resolve, reject) => {
         return transport.sendMail(message, (err, res) => {
-            console.log(res, err)
             return err ? reject(err) : resolve(res)
         })
     })

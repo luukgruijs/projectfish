@@ -8,13 +8,15 @@
             <form>
                 <input type="password" placeholder="password" v-model="password" required />
                 <input type="password" placeholder="repeat password" v-model="password2" required />
-                <input type="submit" value="login" class="button action" @click.prevent="setPassword()"/>
+                <input type="submit" value="Set password" class="button action" @click.prevent="setPassword()"/>
             </form>
         </div>
     </div>
 </template>
 
 <script>
+
+    import { mapActions } from "vuex";
 
     export default {
         name: "setpassword",
@@ -25,18 +27,19 @@
             }
         },
         methods: {
+            ...mapActions({
+                set: 'setPassword'
+            }),
             setPassword() {
 
-                let password = {
-                    "password": this.password,
-                    "password2": this.password2
+                const new_password = {
+                    password: this.password,
+                    password2: this.password2,
+                    reset_token: this.$route.params.token,
+                    user: this.$route.params.user,
                 }
 
-                this.$http.post("password", user).then((response) => {
-                    if (response.status === 200) {
-                        this.$router.push("/login")
-                    }
-                })
+                this.set(new_password);
             }
         }
     }

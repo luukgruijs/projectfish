@@ -19,7 +19,7 @@ const routes = [
         },
     },
     {
-        path: "/set-password",
+        path: "/set-password/:token/:user",
         name: "set_password",
         component: function (resolve) {
             require(['@/components/set_password.vue'], resolve)

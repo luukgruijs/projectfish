@@ -17,7 +17,7 @@ Vue.directive("permissions", {
 
         // check if score is bigger or equal, then we're allowed to show the item
         if (role_score < required_score) {
-            el.remove()
+            el.remove();
         }
     }
 })

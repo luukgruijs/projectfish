@@ -4,45 +4,48 @@ const bcrypt = require('bcrypt-nodejs');
 
 module.exports = function User(mongoose) {
     var schema = new mongoose.Schema({
-        "email": {
-            "desc": "The users email address",
-            "format": "email",
-            "required": true,
-            "type": String,
-            "unique": true
+        email: {
+            desc: "The users email address",
+            format: "email",
+            required: true,
+            type: String,
+            unique: true
         },
-        "name": {
-            "desc": "The name of the user",
-            "required": true,
-            "trim": true,
-            "type": String
+        name: {
+            desc: "The name of the user",
+            required: true,
+            trim: true,
+            type: String
         },
-        "password": {
-            "default": "",
-            "type": String,
-            "select": false
+        password: {
+            default: {},
+            select: false,
+            type: {
+              hash: String,
+              reset_token: String,
+            }
         },
-        "has_password": {
-            "default": false,
-            "type": Boolean,
-            "desc": "Check if user has already set his password"
+        has_password: {
+            default: false,
+            type: Boolean,
+            desc: "Check if user has already set his password"
         },
-        "role": {
-            "default": "user",
-            "desc": "A list of roles attached to the user",
-            "enum": ["admin", "user"],
-            "type": String
+        role: {
+            default: "user",
+            desc: "A list of roles attached to the user",
+            enum: ["admin", "user"],
+            type: String
         },
-        "orders": {
-            "default": [],
-            "desc": "All the orders a user has done",
-            "type": [mongoose.Schema.Types.ObjectId]
+        orders: {
+            default: [],
+            desc: "All the orders a user has done",
+            type: [mongoose.Schema.Types.ObjectId]
         },
-        "disabled": {
-            "default": false,
-            "required": true,
-            "desc": "disabled state of user, we cannot delete the user. Else our orders will get corrupted",
-            "type": Boolean,
+        disabled: {
+            default: false,
+            required: true,
+            desc: "disabled state of user, we cannot delete the user. Else our orders will get corrupted",
+            type: Boolean,
         }
     })
 
@@ -56,13 +59,13 @@ module.exports = function User(mongoose) {
         };
 
         // generate hash
-        bcrypt.hash(user.password, null, null, function(err, hash) {
+        bcrypt.hash(user.password.hash, null, null, function(err, hash) {
             if (err) {
                 return next(err);
             }
 
             // changed password to hash version
-            user.password = hash;
+            user.password.hash = hash;
             next();
         });
     });
@@ -70,7 +73,7 @@ module.exports = function User(mongoose) {
     // method to compare a given password with the database hash
     schema.methods.comparePassword = function(password) {
         var user = this;
-        return bcrypt.compareSync(password, this.password, (err, same) => {
+        return bcrypt.compareSync(password, this.password.hash, (err, same) => {
             if (same) {
                 return true
             } else {

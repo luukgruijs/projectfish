@@ -40,8 +40,7 @@ export default {
         },
         createUser({ dispatch, commit }, item) {
             Vue.http.post("users", item).then((response) => {
-                bus.$emit("open__snackbar", `succesfully updated ${user.name}`, 5000)
-
+                bus.$emit("open__snackbar", `succesfully created ${response.body.name}`, 5000)
                 dispatch("getUsers")
                 commit(types.SET_USER_EDITMODE, false)
             })

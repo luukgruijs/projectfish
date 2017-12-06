@@ -12,7 +12,9 @@ exports.startup = function() {
             let admin = new models.user
             admin.name = config.name
             admin.email = "testadmin@projectfish.nl"
-            admin.password = config.password
+            admin.password = {
+                hash: config.password,
+            }
             admin.role = "admin"
             admin.disabled = false
             admin.save()
@@ -20,7 +22,9 @@ exports.startup = function() {
             let user = new models.user
             user.name = config.name
             user.email = "testuser@projectfish.nl"
-            user.password = config.password
+            user.password = {
+                hash: config.password,
+            }
             user.role = "user"
             user.disabled = false
             user.save()

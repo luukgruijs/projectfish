@@ -116,5 +116,23 @@ module.exports = {
             invalid_fields: opts.fields,
           };
         },
-    }
+    },
+    115: {
+        http_status: http_status.BAD_REQUEST,
+        message: "Your request did not contain a password reset token",
+        name: "NO_RESET_TOKEN",
+        format: nothing,
+    },
+    116: {
+        http_status: http_status.BAD_REQUEST,
+        message: "Your reset token did not match any of ours",
+        name: "RESET_TOKEN_MISMATCH",
+        format: nothing,
+    },
+    116: {
+        http_status: http_status.BAD_REQUEST,
+        message: "Your submitted passwords are not the same",
+        name: "PASSWORD_MISMATCH",
+        format: nothing,
+    },
 }
