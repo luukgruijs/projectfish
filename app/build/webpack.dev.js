@@ -17,6 +17,21 @@ module.exports = merge(webpack_common, {
     hot: true,
     contentBase: path.join(__dirname, "..", "..", "dist"),
     host: '0.0.0.0',
+    proxy: {
+      "/v1/**": {
+        target: "http://localhost:8002/v1",
+        pathRewrite: {
+          "^/v1": ""
+        }
+      }
+    }
+    // proxy: {
+    //   '/v1/**': {
+    //     target: 'https://localhost:8443',
+    //     secure: false,
+    //     changeOrigin: true
+    //   },
+    // }
   },
   plugins: [
 
