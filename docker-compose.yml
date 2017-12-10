@@ -21,9 +21,11 @@ services:
   app:
     image: "fish"
     build:
-      context: "src"
+      context: "."
     volumes:
-      - "./src:/src"
+      - "./start.js:/fish/start.js"
+      - "./app:/fish/app"
+      - "./lib:/fish/lib"
     links:
       - mongo
     depends_on:
@@ -31,9 +33,9 @@ services:
     ports:
       - "8002:8002"
       - "8003:8003"
-      - "587:587"
+      - "8080:8080"
     environment:
-      NODE_PATH: "/src"
+      NODE_PATH: "/"
 
 volumes:
   mongo-data:
