@@ -57,10 +57,7 @@
 
                     self.drawOrderChart()
                     self.drawItemsChart()
-                    // self.generateOrderList(self.orders)
-                })
-                .catch((err) => {
-                    console.log(err);
+                    self.generateOrderList(self.orders)
                 })
             },
             generateOrderList(orders) {

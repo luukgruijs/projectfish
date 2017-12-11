@@ -6,14 +6,15 @@
             </div>
             <h1>Reset your password</h1>
             <form>
-                <input type="email" placeholder="password" v-model="email" required />
-                <input type="submit" value="login" class="button action" @click.prevent="resetPassword()"/>
+                <input type="email" placeholder="email" v-model="email" required />
+                <input type="submit" value="Send password reset link" class="button action" @click.prevent="resetPassword()"/>
             </form>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapActions } from "vuex";
 
     export default {
         name: "forgot_password",
@@ -23,8 +24,12 @@
             }
         },
         methods: {
+            ...mapActions({
+                reset: "resetPassword",
+            }),
             resetPassword() {
-
+                const email = this.email;
+                this.reset({ email });
             }
         }
     }

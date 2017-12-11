@@ -59,6 +59,9 @@
                     margin-bottom: 50px;
                 }
             }
+            h1 {
+                padding: 10px 0 20px 0;
+            }
             form {
                 input {
                     width: 100%;

@@ -17,4 +17,4 @@ COPY ./.babelrc .babelrc
 # Install deps
 RUN npm i
 
-CMD ["npm", "dev:start"]
+CMD ["npm", "run", "dev:start"]

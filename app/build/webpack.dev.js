@@ -25,13 +25,6 @@ module.exports = merge(webpack_common, {
         }
       }
     }
-    // proxy: {
-    //   '/v1/**': {
-    //     target: 'https://localhost:8443',
-    //     secure: false,
-    //     changeOrigin: true
-    //   },
-    // }
   },
   plugins: [
 

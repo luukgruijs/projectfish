@@ -38,7 +38,12 @@ export default {
         setPassword({commit, state}, new_password) {
             Vue.http.post(`users/${new_password.user}/set_password`, new_password).then((response) => {
                 bus.$emit("open__snackbar", response.body.message, 5000)
-                router.push("/home")
+                router.push("/")
+            })
+        },
+        resetPassword({commit, state}, email) {
+            Vue.http.post(`users/forgot_password`, email).then((response) => {
+                bus.$emit("open__snackbar", response.body.message, 5000)
             })
         }
     }
