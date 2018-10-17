@@ -1,0 +1,9 @@
+verify:
+  handler: lib/handlers/authentication/verify.handler
+
+authenticate:
+  handler: lib/handlers/authentication/login.handler
+  events:
+    - http:
+        path: api/login
+        method: post

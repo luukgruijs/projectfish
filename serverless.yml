@@ -1,0 +1,14 @@
+service: projectfish
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-central-1
+
+functions:
+  - "${file(lib/handlers/authentication/authentication.serverless.yml)}"
+  - "${file(lib/handlers/user/user.serverless.yml)}"
+
+plugins:
+  - serverless-offline

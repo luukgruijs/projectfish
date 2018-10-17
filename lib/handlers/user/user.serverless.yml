@@ -1,0 +1,28 @@
+post:
+  handler: lib/handlers/user/post.handler
+  events:
+    - http: 
+        path: /api/user
+        method: post
+        authorizer: verify
+
+update:
+  handler: lib/handlers/user/update.handler
+  events:
+    - http: 
+        path: /api/user/{id}
+        method: put
+        authorizer: verify
+
+list:
+  handler: lib/handlers/user/list.handler
+  events:
+    - http: 
+        path: /api/user
+        method: get
+        authorizer: verify
+
+set_password:
+  handler: lib/handlers/user/setPassword.handler
+  events:
+    - http: post /api/user/{id}/set_password
