@@ -9,6 +9,7 @@ provider:
 functions:
   - "${file(lib/handlers/authentication/authentication.serverless.yml)}"
   - "${file(lib/handlers/user/user.serverless.yml)}"
+  - "${file(lib/handlers/settings/settings.serverless.yml)}"
 
 plugins:
   - serverless-offline

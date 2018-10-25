@@ -1,23 +1,23 @@
-post:
+postUser:
   handler: lib/handlers/user/post.handler
   events:
-    - http: 
+    - http:
         path: /api/user
         method: post
         authorizer: verify
 
-update:
+updateUser:
   handler: lib/handlers/user/update.handler
   events:
-    - http: 
+    - http:
         path: /api/user/{id}
         method: put
         authorizer: verify
 
-list:
+listUsers:
   handler: lib/handlers/user/list.handler
   events:
-    - http: 
+    - http:
         path: /api/user
         method: get
         authorizer: verify

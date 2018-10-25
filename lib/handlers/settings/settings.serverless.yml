@@ -1,0 +1,23 @@
+updateSettings:
+  handler: lib/handlers/settings/update.handler
+  events:
+    - http:
+        path: /api/settings/{id}
+        method: put
+        authorizer: verify
+
+postSettings:
+  handler: lib/handlers/settings/post.handler
+  events:
+    - http:
+        path: /api/settings
+        method: post
+        authorizer: verify
+
+listSettings:
+  handler: lib/handlers/settings/list.handler
+  events:
+    - http:
+        path: /api/settings
+        method: get
+        authorizer: verify
